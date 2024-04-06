@@ -1,0 +1,57 @@
+name: Quantize the Model and Pack ModelKit
+
+on:
+    workflow_call:
+        inputs:
+            model-name:
+                type: string
+                description: 'Model name'
+                required: true
+            model-variant:
+                type: string
+                description: 'Model name'
+                required: true
+            model-description:
+                type: string
+                description: 'Model description'
+                required: true
+            kitfile-template:
+                type: string
+                description: 'Kitfile template'
+                required: true
+
+jobs:
+    quantize-model:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                qnt: [q8_0,  q6_k,  q5_k,  q5_1,  q5_0,  q4_k,  q4_1,  q4_0,  q3_k,  q2_k]
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                fetch-depth: 0
+            - uses: actions/setup-python@v5
+              with:
+                python-version: '3.10'
+            - name: Install dependencies
+              run: ./scripts/check-deps
+            - uses: jozu-ai/gh-kit-setup@v1.0.0
+              name: install kit CLI
+            - name: download model artifact
+              uses: actions/download-artifact@v2
+              with:
+                name: ${{inputs.model-name}}
+                path: ./model
+            - name: quantize model
+              run: |
+                ./scripts/quantize ./model/${{inputs.model-name}}-${{inputs.model-variant}}.gguf \
+                ./model/${{inputs.model-name}}-${{inputs.model-variant}}-${{matrix.qnt}}.gguf ${{matrix.qnt}}
+            - name: generate kitfile
+              run: | 
+                ./scripts/update-kitfile "${{inputs.model-name}}-${{inputs.model-variant}}-${{matrix.qnt}}" \
+                "${{inputs.model-description}}" ./${{inputs.model-name}}-${{inputs.model-variant}}-${{matrix.qnt}}.gguf \
+                ${{inputs.kitfile-template}}./model/kitfile
+            - name: pack modelkit
+              run: kit pack ./model -t ghcr.io/jozu-ai/${{inputs.model-name}}:${{inputs.model-variant}}-${{matrix.qnt}}
+            - name: push modelkit
+              run: kit push ghcr.io/jozu-ai/${{inputs.model-name}}:${{inputs.model-variant}}-${{matrix.qnt}}

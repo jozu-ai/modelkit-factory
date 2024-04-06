@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+
+LLAMA_HOME=./llama.cpp
+LLAMA_BUILD_DIR="${LLAMA_HOME}/build"

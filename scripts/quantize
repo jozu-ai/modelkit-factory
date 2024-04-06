@@ -1,0 +1,23 @@
+#!/bin/bash
+# usage: quantize <model> <out-file> <quantization> 
+#
+set -e
+source ./scripts/common
+
+
+quantize() {
+    time ${LLAMA_BUILD_DIR}/bin/quantize  $1 $2 $3
+}
+
+if [ $# -eq 0 ]; then
+  echo "usage: conv-to-guf <path>" >&2
+  exit 1
+fi
+
+if [ ! -d ${LLAMA_BUILD_DIR} ]; then
+    echo "llama.cpp not found"
+    echo "Please run check-deps first"
+    exit 1
+fi
+
+quantize $1 $2 $3 

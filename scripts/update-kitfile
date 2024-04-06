@@ -1,0 +1,9 @@
+#!/bin/bash
+
+MODEL_NAME="$1"
+MODEL_DESCRIPTION="$2"
+MODEL_PATH="$3"
+TEMPLATE="$4"
+OUTFILE="$5"
+# Update commands
+yq e ".model.name = \"$MODEL_NAME\" | .model.path = \"$MODEL_PATH\" | .model.description= \"$MODEL_DESCRIPTION\"" $TEMPLATE > $OUTFILE

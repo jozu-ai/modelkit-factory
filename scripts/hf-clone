@@ -1,0 +1,35 @@
+#!/bin/bash
+# usage: huggingface <repo> <path> 
+#
+set -e
+
+source ./scripts/common
+
+check_huggingface_token() {
+    if [ -z "$HF_TOKEN" ]; then
+        echo "HF_TOKEN is not set. Please set the token before cloning the repo."
+        exit 1
+    fi
+}
+
+clone_repo() {
+    if [ -d "$2" ]; then
+        echo "Directory $1 already exists. Skipping cloning."
+    else
+        huggingface-cli download $1 --local-dir $2 --token $HF_TOKEN
+    fi
+}
+
+if [ $# -eq 0 ]; then
+  echo "usage: huggingface <repo> <path>" >&2
+  exit 1
+fi
+
+if ! command -v huggingface-cli &> /dev/null; then
+    echo "huggingface-cli not found. Use check-deps to install it."
+    exit 1 
+fi
+
+
+check_huggingface_token
+clone_repo $1 $2

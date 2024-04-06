@@ -1,0 +1,20 @@
+#!/bin/bash
+
+MODEL_REPO="meta-llama/Llama-2-7b-chat"
+MODEL_NAME="llama-2"
+MODEL_VARIANT="7b-chat"
+MODEL_DESCRIPTION="Llama 2 7B Chat Q4.1 is a 7B parameter model fine-tuned on a large-scale conversational dataset."
+QNT="q4_1"
+FULL_NAME=${MODEL_NAME} ${MODEL_VARIANT} ${QNT} 
+export HF_TOKEN=""
+
+echo "*********** llama2 flow ***********"
+./scripts/check-deps
+./scripts/hf-clone ${MODEL_REPO} ./model
+./scripts/conv-to-gguf ./model ./model/${MODEL_NAME}-${MODEL_VARIANT}.gguf
+
+echo "*********** quantize and pack flow ***********"
+./scripts/check-deps
+./scripts/quantize ./model/${MODEL_NAME}-${MODEL_VARIANT}.gguf ./model/${MODEL_NAME}-${MODEL_VARIANT}-${QNT}.gguf ${QNT}
+./scripts/update-kitfile "${FULL_NAME}" "${MODEL_DESCRIPTION}" ./${MODEL_NAME}-${MODEL_VARIANT}-${QNT}.gguf ./kitfiles/llama2.yml ./model/kitfile
+kit pack ./model -t ${MODEL_NAME}:${MODEL_VARIANT}-${QNT}

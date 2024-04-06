@@ -1,0 +1,46 @@
+#!/bin/bash
+# usage: check-deps
+#
+set -e
+
+source ./scripts/common
+
+check_and_clone_llamacpp() {
+    if [ -d ${LLAMA_BUILD_DIR} ]; then
+        echo "Directory already exists. Skipping cloning."
+    else
+        git clone https://github.com/ggerganov/llama.cpp.git
+        build_quantize
+    fi
+}
+
+build_quantize() {
+    if [ -f ${LLAMA_BUILD_DIR}/bin/quantize ]; then
+        echo "quantize is already build. Skipping..."
+        return
+    else
+        echo "Building quantize..."
+        mkdir -p ${LLAMA_BUILD_DIR}
+        cmake -S ./llama.cpp -B ${LLAMA_BUILD_DIR} -DCMAKE_BUILD_TYPE=Release 
+        cmake --build ${LLAMA_BUILD_DIR} -j8 --target quantize
+    fi
+}
+
+install-convert-deps() {
+    python3 -m pip install -r ${LLAMA_HOME}/requirements.txt
+}
+
+check_and_install_huggingface() {
+    if ! command -v huggingface-cli &> /dev/null; then
+        echo "huggingface-cli not found. Installing..."
+        pip install -U "huggingface_hub[cli]"
+    else
+        echo "huggingface-cli is already installed."
+    fi
+}
+
+check_and_install_huggingface
+check_and_clone_llamacpp
+install-convert-deps
+build_quantize
+

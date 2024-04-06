@@ -1,0 +1,20 @@
+manifestVersion: 1.0
+package:
+  name: llama2
+  version: 2.0.0
+  description: >-
+    Llama 2 is a collection of foundation language models ranging from 7B to 70B parameters.
+  authors: [Meta Platforms, Inc.]
+code:
+  - path: LICENSE.txt
+    description: License file.
+  - path: README.md
+    description: Readme file.
+  - path: USE_POLICY.md
+    description: Use policy file.
+model:
+  name: <model-name>
+  path: <model-path>
+  description: >-
+    <model-description>
+  license: LLAMA 2 COMMUNITY LICENSE AGREEMENT
