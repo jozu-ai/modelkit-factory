@@ -7,11 +7,15 @@ MODEL_DESCRIPTION="Llama 2 7B Chat Q4.1 is a 7B parameter model fine-tuned on a 
 QNT="q4_1"
 FULL_NAME=${MODEL_NAME} ${MODEL_VARIANT} ${QNT} 
 export HF_TOKEN=""
+export HF_HUB_ENABLE_HF_TRANSFER=1
 
 echo "*********** llama2 flow ***********"
 ./scripts/check-deps
 ./scripts/hf-clone ${MODEL_REPO} ./model
 ./scripts/conv-to-gguf ./model ./model/${MODEL_NAME}-${MODEL_VARIANT}.gguf
+
+./scripts/update-kitfile "${MODEL_NAME} ${MODEL_VARIANT} fp16" "${MODEL_DESCRIPTION}" ./${MODEL_NAME}-${MODEL_VARIANT}-fp16.gguf ./kitfiles/llama2.yml ./model/kitfile
+kit pack ./model -t ${MODEL_NAME}:${MODEL_VARIANT}-fp16
 
 echo "*********** quantize and pack flow ***********"
 ./scripts/check-deps

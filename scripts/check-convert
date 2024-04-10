@@ -1,0 +1,9 @@
+#!/bin/bash
+# usage: check-deps
+#
+set -e
+
+source ./scripts/check-deps
+
+check_and_clone_llamacpp
+install-convert-deps

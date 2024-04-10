@@ -39,8 +39,3 @@ check_and_install_huggingface() {
     fi
 }
 
-check_and_install_huggingface
-check_and_clone_llamacpp
-install-convert-deps
-build_quantize
-

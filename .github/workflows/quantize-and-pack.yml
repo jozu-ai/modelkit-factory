@@ -1,7 +1,7 @@
 name: Quantize the Model and Pack ModelKit
 
 on:
-    workflow_call:
+    workflow_dispatch:
         inputs:
             model-name:
                 type: string
@@ -9,8 +9,13 @@ on:
                 required: true
             model-variant:
                 type: string
-                description: 'Model name'
+                description: 'Model variant'
                 required: true
+            model-qnt:
+                type: string
+                description: 'Model quantization'
+                required: true
+                default: 'f16'
             model-description:
                 type: string
                 description: 'Model description'
@@ -34,18 +39,15 @@ jobs:
             - uses: actions/setup-python@v5
               with:
                 python-version: '3.10'
-            - name: Install dependencies
-              run: ./scripts/check-deps
+            - name: Install quantize dependencies
+              run: ./scripts/check-quantize
             - uses: jozu-ai/gh-kit-setup@v1.0.0
               name: install kit CLI
-            - name: download model artifact
-              uses: actions/download-artifact@v2
-              with:
-                name: ${{inputs.model-name}}
-                path: ./model
+            - name: unpack base-modelkit
+              run: kit unpack ghcr.io/jozu-ai/${{inputs.model-name}}:${{inputs.model-variant}}-${{inputs.model-qnt}} ./model
             - name: quantize model
               run: |
-                ./scripts/quantize ./model/${{inputs.model-name}}-${{inputs.model-variant}}.gguf \
+                ./scripts/quantize ./model/${{inputs.model-name}}-${{inputs.model-variant}}-${{inputs.model-qnt}}.gguf \
                 ./model/${{inputs.model-name}}-${{inputs.model-variant}}-${{matrix.qnt}}.gguf ${{matrix.qnt}}
             - name: generate kitfile
               run: | 

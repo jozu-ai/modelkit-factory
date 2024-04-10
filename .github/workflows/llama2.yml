@@ -14,20 +14,12 @@ jobs:
                       variant: 7b-chat
                       description: "Llama 2 7b chat model"
                       kitfile-template: ./kitfiles/llama2.yml
+                      qnt: f16
 
         env:
             HF_TOKEN: ${{ secrets.HUGGINGFACE_TOKEN }}
+            HF_HUB_ENABLE_HF_TRANSFER: 1
         steps:
-            - name: Clean runner image
-              run: |
-                echo "Before removing files:"
-                df -h
-                sudo rm -rf /usr/share/dotnet
-                sudo rm -rf /opt/ghc
-                sudo rm -rf "/usr/local/share/boost"
-                sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-                echo "After removing files:"
-                df -h
             - uses: actions/checkout@v4
               with:
                 fetch-depth: 0
@@ -47,26 +39,15 @@ jobs:
                 echo "After dependencies are installed:"
                 df -h
             - name: convert model to gguf
-              run: ./scripts/conv-to-gguf ./model ./model/${{matrix.model.name}}-${{matrix.model.variant}}.gguf
-            - name: push model to artifacts
-              uses: actions/upload-artifact@v2
-              with:
-                name: ${{matrix.model.name}}-${{matrix.model.variant}}
-                path: ./model/
-    call-quantize:
-        needs: convert-model
-        strategy:
-            matrix:
-                model:
-                    - repo: meta-llama/Llama-2-7b-chat
-                      name: llama-2-7b-chat
-
-        uses: ./.github/workflows/quantize-and-pack.yml
-        with:
-            model-name: ${{matrix.model.name}}
-            model-variant: ${{matrix.model.variant}}
-            model-description: ${{matrix.model.description}}
-            kitfile-template: ${{matrix.model.kitfile-template}}
-
+              run: ./scripts/conv-to-gguf ./model ./model/${{matrix.model.name}}-${{matrix.model.variant}}-${{matrix.model.qnt}}.gguf
+            - name: generate kitfile
+              run: | 
+                  ./scripts/update-kitfile "${{matrix.model.name}}-${{matrix.model.variant}}-${{matrix.model.qnt}}" \
+                  "${{matrix.model.description}}" ./${{matrix.model.name}}-${{matrix.model.variant}}-${{matrix.model.qnt}}.gguf \
+                  ${{matrix.model.kitfile-template}}./model/kitfile
+            - name: pack modelkit
+              run: kit pack ./model -t ghcr.io/jozu-ai/${{matrix.model.name}}:${{matrix.model.variant}}-${{matrix.model.qnt}}
+            - name: push modelkit
+              run: kit push ghcr.io/jozu-ai/${{matrix.model.name}}:${{matrix.model.variant}}-${{matrix.model.qnt}}
         
                 

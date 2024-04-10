@@ -1,0 +1,8 @@
+#!/bin/bash
+# usage: check-deps
+#
+set -e
+
+source ./scripts/check-deps
+
+check_and_install_huggingface
