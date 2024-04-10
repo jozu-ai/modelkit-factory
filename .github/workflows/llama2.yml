@@ -42,7 +42,7 @@ jobs:
               run: | 
                   ./scripts/update-kitfile "${{matrix.model.name}}-${{matrix.model.variant}}-${{matrix.model.qnt}}" \
                   "${{matrix.model.description}}" ./${{matrix.model.name}}-${{matrix.model.variant}}-${{matrix.model.qnt}}.gguf \
-                  ${{matrix.model.kitfile-template}}./model/kitfile
+                  ${{matrix.model.kitfile-template}} ./model/kitfile
             - name: pack modelkit
               run: kit pack ./model -t ghcr.io/jozu-ai/${{matrix.model.name}}:${{matrix.model.variant}}-${{matrix.model.qnt}}
             - name: push modelkit
