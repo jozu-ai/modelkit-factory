@@ -43,6 +43,8 @@ jobs:
               run: ./scripts/check-quantize
             - uses: jozu-ai/gh-kit-setup@v1.0.0
               name: install kit CLI
+            - name: login to kit
+              run: kit login --username ${{github.actor}} --password ${{secrets.GITHUB_TOKEN}}
             - name: unpack base-modelkit
               run: kit unpack ghcr.io/jozu-ai/${{inputs.model-name}}:${{inputs.model-variant}}-${{inputs.model-qnt}} ./model
             - name: quantize model

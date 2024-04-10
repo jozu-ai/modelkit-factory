@@ -45,6 +45,8 @@ jobs:
                   ${{matrix.model.kitfile-template}} ./model/kitfile
             - uses: jozu-ai/gh-kit-setup@v1.0.0
               name: install kit CLI
+            - name: login to kit
+              run: kit login --username ${{github.actor}} --password ${{secrets.GITHUB_TOKEN}}
             - name: pack modelkit
               run: kit pack ./model -t ghcr.io/jozu-ai/${{matrix.model.name}}:${{matrix.model.variant}}-${{matrix.model.qnt}}
             - name: push modelkit
