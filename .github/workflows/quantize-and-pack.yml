@@ -49,7 +49,9 @@ jobs:
             - name: login to kit
               run: kit login ghcr.io --username ${{secrets.KIT_USER}} --password ${{secrets.KIT_PASSWORD}}
             - name: unpack base-modelkit
-              run: kit unpack ghcr.io/jozu-ai/${{inputs.model-name}}:${{inputs.model-variant}}-${{inputs.model-qnt}} -d ./model
+              run: |
+                mkdir ./model
+                kit unpack ghcr.io/jozu-ai/${{inputs.model-name}}:${{inputs.model-variant}}-${{inputs.model-qnt}} -d ./model
             - name: quantize model
               run: |
                 ./scripts/quantize ./model/${{inputs.model-name}}-${{inputs.model-variant}}-${{inputs.model-qnt}}.gguf \
