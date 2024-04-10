@@ -27,16 +27,14 @@ jobs:
               with:
                 python-version: '3.10'
             - name: Install dependencies
-              run: ./scripts/check-deps
-            - name: check diskspace after deps
-              run: | 
-                echo "After dependencies are installed:"
-                df -h
+              run:  |
+                ./scripts/check-hf-cli 
+                ./scripts/check-convert
             - name: download model
               run: ./scripts/hf-clone ${{ matrix.model.repo }} ./model
             - name: check diskspace after download
               run: | 
-                echo "After dependencies are installed:"
+                echo "Disk space after base model downloads:"
                 df -h
             - name: convert model to gguf
               run: ./scripts/conv-to-gguf ./model ./model/${{matrix.model.name}}-${{matrix.model.variant}}-${{matrix.model.qnt}}.gguf
