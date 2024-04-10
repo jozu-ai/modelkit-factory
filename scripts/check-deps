@@ -34,6 +34,7 @@ check_and_install_huggingface() {
     if ! command -v huggingface-cli &> /dev/null; then
         echo "huggingface-cli not found. Installing..."
         pip install -U "huggingface_hub[cli]"
+        pip install huggingface_hub[hf_transfer]
     else
         echo "huggingface-cli is already installed."
     fi
