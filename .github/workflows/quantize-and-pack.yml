@@ -28,9 +28,9 @@ on:
 jobs:
     quantize-model:
         runs-on: model-factory-runner
-        permissions: 
+        permissions:
           contents: read
-          packages: write   
+          packages: write
         strategy:
             matrix:
                 # qnt: [q8_0,  q6_k,  q5_k,  q5_1,  q5_0,  q4_k,  q4_1,  q4_0,  q3_k,  q2_k]
@@ -57,11 +57,15 @@ jobs:
                 ./scripts/quantize ./model/${{inputs.model-name}}-${{inputs.model-variant}}-${{inputs.model-qnt}}.gguf \
                 ./model/${{inputs.model-name}}-${{inputs.model-variant}}-${{matrix.qnt}}.gguf ${{matrix.qnt}}
             - name: generate kitfile
-              run: | 
+              run: |
                 ./scripts/update-kitfile "${{inputs.model-name}}-${{inputs.model-variant}}-${{matrix.qnt}}" \
                 "${{inputs.model-description}}" ./${{inputs.model-name}}-${{inputs.model-variant}}-${{matrix.qnt}}.gguf \
-                ${{inputs.kitfile-template}} ./model/kitfile
+                ${{inputs.kitfile-template}} ./model/Kitfile
+                cat ./model/Kitfile
             - name: pack modelkit
-              run: kit pack ./model -t ghcr.io/jozu-ai/${{inputs.model-name}}:${{inputs.model-variant}}-${{matrix.qnt}}
+              run: |
+                kit pack ./model -t ghcr.io/jozu-ai/${{inputs.model-name}}:${{inputs.model-variant}}-${{matrix.qnt}}
+                kit info ghcr.io/jozu-ai/${{inputs.model-name}}:${{inputs.model-variant}}-${{matrix.qnt}}
+                kit inspect ghcr.io/jozu-ai/${{inputs.model-name}}:${{inputs.model-variant}}-${{matrix.qnt}}
             - name: push modelkit
               run: kit push ghcr.io/jozu-ai/${{inputs.model-name}}:${{inputs.model-variant}}-${{matrix.qnt}}

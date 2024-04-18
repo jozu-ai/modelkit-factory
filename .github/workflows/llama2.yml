@@ -2,13 +2,13 @@ name: Convert models from HF to GGUF
 
 on:
     workflow_dispatch:
- 
+
 jobs:
     convert-model:
         runs-on: model-factory-runner
-        permissions: 
+        permissions:
           contents: read
-          packages: write   
+          packages: write
         strategy:
             matrix:
                 model:
@@ -31,21 +31,21 @@ jobs:
                 python-version: '3.10'
             - name: Install dependencies
               run:  |
-                ./scripts/check-hf-cli 
+                ./scripts/check-hf-cli
                 ./scripts/check-convert
             - name: download model
               run: ./scripts/hf-clone ${{ matrix.model.repo }} ./model
             - name: check diskspace after download
-              run: | 
+              run: |
                 echo "Disk space after base model downloads:"
                 df -h
             - name: convert model to gguf
               run: ./scripts/conv-to-gguf ./model ./model/${{matrix.model.name}}-${{matrix.model.variant}}-${{matrix.model.qnt}}.gguf
             - name: generate kitfile
-              run: | 
+              run: |
                   ./scripts/update-kitfile "${{matrix.model.name}}-${{matrix.model.variant}}-${{matrix.model.qnt}}" \
                   "${{matrix.model.description}}" ./${{matrix.model.name}}-${{matrix.model.variant}}-${{matrix.model.qnt}}.gguf \
-                  ${{matrix.model.kitfile-template}} ./model/kitfile
+                  ${{matrix.model.kitfile-template}} ./model/Kitfile
             - uses: jozu-ai/gh-kit-setup@v1.0.0
               name: install kit CLI
             - name: login to kit
@@ -54,5 +54,3 @@ jobs:
               run: kit pack ./model -t ghcr.io/jozu-ai/${{matrix.model.name}}:${{matrix.model.variant}}-${{matrix.model.qnt}}
             - name: push modelkit
               run: kit push ghcr.io/jozu-ai/${{matrix.model.name}}:${{matrix.model.variant}}-${{matrix.model.qnt}}
-        
-                
