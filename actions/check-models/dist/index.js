@@ -26274,7 +26274,7 @@ async function registryExists(repo) {
         stderr = result.stderr;
         if (result.exitCode == 0) {
             const manifest = JSON.parse(stdout);
-            if (manifest.layers.length > 0) {
+            if (manifest?.layers?.length > 0) {
                 core.info(`✅ The modelkit ${repo} exists.`);
                 return true;
             }

@@ -1,6 +1,6 @@
 manifestVersion: 1.0
 package:
-  name: llama2
+  name: llama3
   version: 3.0.0
   description: >-
    Llama 3 family of large language models (LLMs), a collection of pretrained and 
