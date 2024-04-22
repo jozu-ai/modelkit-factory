@@ -5,7 +5,7 @@ set -e
 source ./scripts/common
 
 convert() {
-    python3 ${LLAMA_HOME}/convert.py $1 --outtype $3 --outfile $2 $4
+    python3 ${LLAMA_HOME}/convert.py $1 --outfile $2 --outtype $3 $4
 }
 
 if [ $# -eq 0 ]; then
