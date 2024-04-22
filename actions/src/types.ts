@@ -7,4 +7,5 @@ export interface Model {
     description: string,
     kitfileTemplate: string,
     quantization: string
+    conversionFlags?: string
 }

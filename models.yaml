@@ -20,3 +20,4 @@
   description: "Llama 3 8B instruct model"
   kitfileTemplate: ./kitfiles/llama3.yml
   quantization: f16
+  conversionFlags: "--vocab-type bpe"

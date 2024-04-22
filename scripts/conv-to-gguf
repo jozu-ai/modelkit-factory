@@ -5,7 +5,7 @@ set -e
 source ./scripts/common
 
 convert() {
-    python3 ${LLAMA_HOME}/convert.py $1 --outtype $3 --outfile $2
+    python3 ${LLAMA_HOME}/convert.py $1 --outtype $3 --outfile $2 $3
 }
 
 if [ $# -eq 0 ]; then
@@ -19,4 +19,4 @@ if [ ! -d ${LLAMA_BUILD_DIR} ]; then
     exit 1
 fi
 
-convert $1 $2 f16
+convert $1 $2 f16 $3

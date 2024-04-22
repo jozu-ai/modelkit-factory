@@ -26310,7 +26310,8 @@ function modelToConvertInputs(model) {
         model_parameters: model.parameterSize,
         model_qnt: model.quantization,
         model_description: model.description,
-        kitfile_template: model.kitfileTemplate
+        kitfile_template: model.kitfileTemplate,
+        conversion_flags: model.conversionFlags || ''
     };
 }
 exports.modelToConvertInputs = modelToConvertInputs;
