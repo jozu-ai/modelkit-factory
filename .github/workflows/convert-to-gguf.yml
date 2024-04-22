@@ -71,6 +71,6 @@ jobs:
             - name: login to kit
               run: kit login ghcr.io --username ${{secrets.KIT_USER}} --password ${{secrets.KIT_PASSWORD}}
             - name: pack modelkit
-              run: kit pack ./model -t ghcr.io/jozu-ai/${{inputs.model_name}}:-${{inputs.model_parameters}}-${{inputs.model_variant}}-${{inputs.model_qnt}}
+              run: kit pack ./model -t ghcr.io/jozu-ai/${{inputs.model_name}}:${{inputs.model_parameters}}-${{inputs.model_variant}}-${{inputs.model_qnt}}
             - name: push modelkit
               run: kit push ghcr.io/jozu-ai/${{inputs.model_name}}:${{inputs.model_parameters}}-${{inputs.model_variant}}-${{inputs.model_qnt}}
