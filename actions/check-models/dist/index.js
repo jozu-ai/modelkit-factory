@@ -26320,7 +26320,7 @@ function modelToQuantizeInputs(model, quantization) {
         model_variant: model.variant,
         model_src_qnt: model.quantization,
         model_parameters: model.parameterSize,
-        model_target_qnt: quantization.join(', '), // Target quantization
+        model_target_qnt: JSON.stringify(quantization), // Target quantization
         model_description: model.description,
         kitfile_template: model.kitfileTemplate
     };

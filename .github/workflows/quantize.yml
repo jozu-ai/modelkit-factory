@@ -42,7 +42,7 @@ jobs:
           packages: write
         strategy:
             matrix:
-                qnt: ${{ inputs.model_target_qnt }}
+                qnt: ${{ fromJSON(inputs.model_target_qnt) }}
         steps:
             - uses: actions/checkout@v4
               with:
