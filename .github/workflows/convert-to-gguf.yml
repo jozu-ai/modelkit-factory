@@ -1,0 +1,72 @@
+name: Convert GGUF ModelKit
+
+on:
+  workflow_dispatch:
+    inputs:
+      model_repo:
+          description: 'Huggingface repo'
+          type: string
+          required: true
+      model_name:
+          type: string
+          description: 'Model name'
+          required: true
+      model_variant:
+          type: string
+          description: 'Model variant'
+          required: true
+      model_qnt:
+          type: string
+          description: 'Model quantization'
+          required: true
+          default: 'f16'
+      model_description:
+          type: string
+          description: 'Model description'
+          required: true
+      kitfile_template:
+          type: string
+          description: 'Kitfile template'
+          required: true
+
+jobs:
+    convert-model:
+        runs-on: model-factory-runner
+        permissions:
+          contents: read
+          packages: write
+        env:
+            HF_TOKEN: ${{ secrets.HUGGINGFACE_TOKEN }}
+            HF_HUB_ENABLE_HF_TRANSFER: 1
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                fetch-depth: 0
+            - uses: actions/setup-python@v5
+              with:
+                python-version: '3.10'
+            - name: Install dependencies
+              run:  |
+                ./scripts/check-hf-cli
+                ./scripts/check-convert
+            - name: download model
+              run: ./scripts/hf-clone ${{ inputs.model_repo }} ./model
+            - name: check diskspace after download
+              run: |
+                echo "Disk space after base model downloads:"
+                df -h
+            - name: convert model to gguf
+              run: ./scripts/conv-to-gguf ./model ./model/${{inputs.model_name}}-${{inputs.model_variant}}-${{inputs.model_qnt}}.gguf
+            - name: generate kitfile
+              run: |
+                  ./scripts/update-kitfile "${{inputs.model_name}}-${{inputs.model_variant}}-${{inputs.model_qnt}}" \
+                  "${{inputs.model_description}}" ./${{inputs.model_name}}-${{inputs.model_variant}}-${{inputs.model_qnt}}.gguf \
+                  ${{inputs.kitfile_template}} ./model/Kitfile
+            - uses: jozu-ai/gh-kit-setup@v1.0.0
+              name: install kit CLI
+            - name: login to kit
+              run: kit login ghcr.io --username ${{secrets.KIT_USER}} --password ${{secrets.KIT_PASSWORD}}
+            - name: pack modelkit
+              run: kit pack ./model -t ghcr.io/jozu-ai/${{inputs.model_name}}:${{inputs.model_variant}}-${{inputs.model_qnt}}
+            - name: push modelkit
+              run: kit push ghcr.io/jozu-ai/${{inputs.model_name}}:${{inputs.model_variant}}-${{inputs.model_qnt}}

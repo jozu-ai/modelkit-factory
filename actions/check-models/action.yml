@@ -1,0 +1,14 @@
+name: "Check models"
+description: "Check if the models exist on the registry"
+author: "Jozu"
+
+inputs:
+  models-file:
+    description: The path to the file that has the list of models.
+    required: true
+  quantizations:
+    description: The list of quantizations to check for.
+    required: true
+runs:
+  using: node20
+  main: "dist/index.js"
