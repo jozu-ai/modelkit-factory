@@ -26307,6 +26307,7 @@ function modelToConvertInputs(model) {
         model_repo: model.repo,
         model_name: model.name,
         model_variant: model.variant,
+        model_parameters: model.parameterSize,
         model_qnt: model.quantization,
         model_description: model.description,
         kitfile_template: model.kitfileTemplate
@@ -26318,6 +26319,7 @@ function modelToQuantizeInputs(model, quantization) {
         model_name: model.name,
         model_variant: model.variant,
         model_src_qnt: model.quantization,
+        model_parameters: model.parameterSize,
         model_target_qnt: quantization.join(', '), // Target quantization
         model_description: model.description,
         kitfile_template: model.kitfileTemplate

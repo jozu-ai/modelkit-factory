@@ -11,6 +11,10 @@ on:
           type: string
           description: 'Model name'
           required: true
+      model_parameters:
+          type: string
+          description: 'Model parameter size'
+          required: true
       model_variant:
           type: string
           description: 'Model variant'
@@ -56,17 +60,17 @@ jobs:
                 echo "Disk space after base model downloads:"
                 df -h
             - name: convert model to gguf
-              run: ./scripts/conv-to-gguf ./model ./model/${{inputs.model_name}}-${{inputs.model_variant}}-${{inputs.model_qnt}}.gguf
+              run: ./scripts/conv-to-gguf ./model ./model/${{inputs.model_name}}-${{inputs.model_parameters}}-${{inputs.model_variant}}-${{inputs.model_qnt}}.gguf
             - name: generate kitfile
               run: |
-                  ./scripts/update-kitfile "${{inputs.model_name}}-${{inputs.model_variant}}-${{inputs.model_qnt}}" \
-                  "${{inputs.model_description}}" ./${{inputs.model_name}}-${{inputs.model_variant}}-${{inputs.model_qnt}}.gguf \
+                  ./scripts/update-kitfile "${{inputs.model_name}}-${{inputs.model_parameters}}-${{inputs.model_variant}}-${{inputs.model_qnt}}" \
+                  "${{inputs.model_description}}" ./${{inputs.model_name}}-${{inputs.model_parameters}}-${{inputs.model_variant}}-${{inputs.model_qnt}}.gguf \
                   ${{inputs.kitfile_template}} ./model/Kitfile
             - uses: jozu-ai/gh-kit-setup@v1.0.0
               name: install kit CLI
             - name: login to kit
               run: kit login ghcr.io --username ${{secrets.KIT_USER}} --password ${{secrets.KIT_PASSWORD}}
             - name: pack modelkit
-              run: kit pack ./model -t ghcr.io/jozu-ai/${{inputs.model_name}}:${{inputs.model_variant}}-${{inputs.model_qnt}}
+              run: kit pack ./model -t ghcr.io/jozu-ai/${{inputs.model_name}}:-${{inputs.model_parameters}}-${{inputs.model_variant}}-${{inputs.model_qnt}}
             - name: push modelkit
-              run: kit push ghcr.io/jozu-ai/${{inputs.model_name}}:${{inputs.model_variant}}-${{inputs.model_qnt}}
+              run: kit push ghcr.io/jozu-ai/${{inputs.model_name}}:${{inputs.model_parameters}}-${{inputs.model_variant}}-${{inputs.model_qnt}}
