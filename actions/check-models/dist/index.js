@@ -26311,7 +26311,7 @@ function modelToConvertInputs(model) {
         model_qnt: model.quantization,
         model_description: model.description,
         kitfile_template: model.kitfileTemplate,
-        conversion_flags: model.conversionFlags || ''
+        convert_flags: model.conversionFlags || ''
     };
 }
 exports.modelToConvertInputs = modelToConvertInputs;

@@ -8,7 +8,7 @@ export interface ConvertWorkflowInputs {
     model_qnt:string  // Model quantization
     model_description: string  // Model description
     kitfile_template: string // Kitfile template
-    conversion_flags: string // Conversion flags for convert.py
+    convert_flags: string // Conversion flags for convert.py
 }
 
 export interface QuantizeWorkflowInputs {
@@ -30,7 +30,7 @@ export function modelToConvertInputs(model: Model): ConvertWorkflowInputs {
         model_qnt: model.quantization,
         model_description: model.description,
         kitfile_template: model.kitfileTemplate,
-        conversion_flags: model.conversionFlags || ''
+        convert_flags: model.conversionFlags || ''
     }
 }
 
