@@ -1,4 +1,4 @@
-name: Convert GGUF ModelKit
+name: Convert to GGUF ModelKit
 
 on:
   workflow_dispatch:
