@@ -1,0 +1,21 @@
+manifestVersion: 1.0
+package:
+  name: llama2
+  version: 3.0.0
+  description: >-
+   Llama 3 family of large language models (LLMs), a collection of pretrained and 
+   instruction tuned generative text models in 8 and 70B sizes.
+  authors: [Meta Platforms, Inc.]
+code:
+  - path: LICENSE.txt
+    description: License file.
+  - path: README.md
+    description: Readme file.
+  - path: USE_POLICY.md
+    description: Use policy file.
+model:
+  name: <model-name>
+  path: <model-path>
+  description: >-
+    <model-description>
+  license: META LLAMA 3 COMMUNITY LICENSE AGREEMENT

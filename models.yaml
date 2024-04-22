@@ -13,3 +13,10 @@
   description: "Llama 2 7b chat model"
   kitfileTemplate: ./kitfiles/llama2.yml
   quantization: f16
+- repo: meta-llama/Meta-Llama-3-8B-Instruct
+  name: llama3
+  parameterSize: 7B
+  variant: instruct
+  description: "Llama 3 8B instruct model"
+  kitfileTemplate: ./kitfiles/llama3.yml
+  quantization: f16
