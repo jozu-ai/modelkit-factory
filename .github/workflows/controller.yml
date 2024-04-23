@@ -2,8 +2,7 @@ name: Controller
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 * * * *"
+
 jobs:
   check-models:
       runs-on: ubuntu-latest

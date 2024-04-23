@@ -1,3 +1,3 @@
 # ModelKit Factory
 
-Tools and workflows for creating public ModelKit repositories. r
+Tools and workflows for creating public ModelKit repositories.
