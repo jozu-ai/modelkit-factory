@@ -34,7 +34,7 @@ export function modelToConvertInputs(model: Model): ConvertWorkflowInputs {
         model_description: model.description,
         kitfile_template: model.kitfileTemplate,
         convert_flags: model.conversionFlags || '',
-        runner: getRunner(model).toString()
+        runner: getRunner(model, 'convert').toString()
     }
 }
 
@@ -47,6 +47,6 @@ export function modelToQuantizeInputs(model: Model, quantization: string[]): Qua
         model_target_qnt: JSON.stringify(quantization), // Target quantization
         model_description: model.description,
         kitfile_template: model.kitfileTemplate,
-        runner: getRunner(model).toString()
+        runner: getRunner(model,'quantize').toString()
     }
 }

@@ -1,4 +1,4 @@
-manifestVersion: 1.0
+manifestVersion: 1.0.0
 package:
   name: llama3
   version: 3.0.0

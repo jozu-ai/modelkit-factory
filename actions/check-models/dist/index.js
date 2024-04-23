@@ -26302,23 +26302,34 @@ run();
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getRunner = void 0;
-var runner;
-(function (runner) {
-    runner[runner["model-factory-runner"] = 150] = "model-factory-runner";
-    runner[runner["model-factory-runner-xl"] = 600] = "model-factory-runner-xl"; // 600GB storage
-})(runner || (runner = {}));
-function getRunner(model) {
+const runner = {
+    "model-factory-runner": 150, // 150GB storage
+    "model-factory-runner-xl": 600, // 600GB storage
+    "model-factory-runner-xxl": 1200 // 1200GB storage
+};
+function getRunner(model, workflow) {
     let parameterSize = 0;
     if (model.parameterSize.endsWith("B")) {
         parameterSize = Number.parseInt(model.parameterSize.slice(0, -1));
     }
+    let modelStored = 0; // How many times the model is stored 
+    if (workflow === 'quantize') {
+        modelStored = 2;
+    }
+    if (workflow === 'convert') {
+        modelStored = 3;
+    }
     const size = parameterSize * 2; // assume float16
     const depenedencySize = 40; // assume 40GB
-    const totalSize = size * 2 + depenedencySize; // we store the model 2 times
-    if (totalSize < runner["model-factory-runner"].valueOf()) {
-        return "model-factory-runner";
+    const totalSize = (size * modelStored) + depenedencySize; // we store the model 2 times
+    let selectedRunner = "";
+    for (const key in runner) {
+        if (totalSize < runner[key]) {
+            selectedRunner = key;
+            break;
+        }
     }
-    return "model-factory-runner-xl";
+    return selectedRunner;
 }
 exports.getRunner = getRunner;
 
@@ -26343,7 +26354,7 @@ function modelToConvertInputs(model) {
         model_description: model.description,
         kitfile_template: model.kitfileTemplate,
         convert_flags: model.conversionFlags || '',
-        runner: (0, runners_1.getRunner)(model).toString()
+        runner: (0, runners_1.getRunner)(model, 'convert').toString()
     };
 }
 exports.modelToConvertInputs = modelToConvertInputs;
@@ -26356,7 +26367,7 @@ function modelToQuantizeInputs(model, quantization) {
         model_target_qnt: JSON.stringify(quantization), // Target quantization
         model_description: model.description,
         kitfile_template: model.kitfileTemplate,
-        runner: (0, runners_1.getRunner)(model).toString()
+        runner: (0, runners_1.getRunner)(model, 'quantize').toString()
     };
 }
 exports.modelToQuantizeInputs = modelToQuantizeInputs;
