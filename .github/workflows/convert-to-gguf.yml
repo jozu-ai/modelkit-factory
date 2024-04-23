@@ -36,10 +36,15 @@ on:
           type: string
           description: 'Conversion flags'
           required: false
+      runner: 
+          type: string
+          description: 'Runner'
+          required: true
+          default: 'model-factory-runner'
 
 jobs:
     convert-model:
-        runs-on: model-factory-runner
+        runs-on: ${{ inputs.runner }}
         permissions:
           contents: read
           packages: write

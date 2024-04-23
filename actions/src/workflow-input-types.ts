@@ -1,3 +1,4 @@
+import { getRunner } from "./runners"
 import { Model } from "./types"
 
 export interface ConvertWorkflowInputs {
@@ -9,6 +10,7 @@ export interface ConvertWorkflowInputs {
     model_description: string  // Model description
     kitfile_template: string // Kitfile template
     convert_flags: string // Conversion flags for convert.py
+    runner: string // Runner to use
 }
 
 export interface QuantizeWorkflowInputs {
@@ -19,6 +21,7 @@ export interface QuantizeWorkflowInputs {
     model_target_qnt: string // Target quantization
     model_description: string // Model description
     kitfile_template: string // Kitfile template
+    runner: string // Runner to use
 }
 
 export function modelToConvertInputs(model: Model): ConvertWorkflowInputs {
@@ -30,7 +33,8 @@ export function modelToConvertInputs(model: Model): ConvertWorkflowInputs {
         model_qnt: model.quantization,
         model_description: model.description,
         kitfile_template: model.kitfileTemplate,
-        convert_flags: model.conversionFlags || ''
+        convert_flags: model.conversionFlags || '',
+        runner: getRunner(model).toString()
     }
 }
 
@@ -42,6 +46,7 @@ export function modelToQuantizeInputs(model: Model, quantization: string[]): Qua
         model_parameters: model.parameterSize,
         model_target_qnt: JSON.stringify(quantization), // Target quantization
         model_description: model.description,
-        kitfile_template: model.kitfileTemplate
+        kitfile_template: model.kitfileTemplate,
+        runner: getRunner(model).toString()
     }
 }

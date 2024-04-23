@@ -33,10 +33,15 @@ on:
               type: string
               description: 'Kitfile template'
               required: true
+          runner: 
+              type: string
+              description: 'Runner'
+              required: true
+              default: 'model-factory-runner'
 
 jobs:
     quantize-model:
-        runs-on: model-factory-runner
+        runs-on: ${{ inputs.runner }}
         permissions:
           contents: read
           packages: write

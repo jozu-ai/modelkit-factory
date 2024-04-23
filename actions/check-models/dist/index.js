@@ -26295,13 +26295,44 @@ run();
 
 /***/ }),
 
-/***/ 7837:
+/***/ 7359:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getRunner = void 0;
+var runner;
+(function (runner) {
+    runner[runner["model-factory-runner"] = 150] = "model-factory-runner";
+    runner[runner["model-factory-runner-xl"] = 600] = "model-factory-runner-xl"; // 600GB storage
+})(runner || (runner = {}));
+function getRunner(model) {
+    let parameterSize = 0;
+    if (model.parameterSize.endsWith("B")) {
+        parameterSize = Number.parseInt(model.parameterSize.slice(0, -1));
+    }
+    const size = parameterSize * 2; // assume float16
+    const depenedencySize = 40; // assume 40GB
+    const totalSize = size * 2 + depenedencySize; // we store the model 2 times
+    if (totalSize < runner["model-factory-runner"].valueOf()) {
+        return runner["model-factory-runner"].toString();
+    }
+    return runner["model-factory-runner-xl"].toString();
+}
+exports.getRunner = getRunner;
+
+
+/***/ }),
+
+/***/ 7837:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.modelToQuantizeInputs = exports.modelToConvertInputs = void 0;
+const runners_1 = __nccwpck_require__(7359);
 function modelToConvertInputs(model) {
     return {
         model_repo: model.repo,
@@ -26311,7 +26342,8 @@ function modelToConvertInputs(model) {
         model_qnt: model.quantization,
         model_description: model.description,
         kitfile_template: model.kitfileTemplate,
-        convert_flags: model.conversionFlags || ''
+        convert_flags: model.conversionFlags || '',
+        runner: (0, runners_1.getRunner)(model).toString()
     };
 }
 exports.modelToConvertInputs = modelToConvertInputs;
@@ -26323,7 +26355,8 @@ function modelToQuantizeInputs(model, quantization) {
         model_parameters: model.parameterSize,
         model_target_qnt: JSON.stringify(quantization), // Target quantization
         model_description: model.description,
-        kitfile_template: model.kitfileTemplate
+        kitfile_template: model.kitfileTemplate,
+        runner: (0, runners_1.getRunner)(model).toString()
     };
 }
 exports.modelToQuantizeInputs = modelToQuantizeInputs;
