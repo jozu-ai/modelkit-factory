@@ -26314,10 +26314,10 @@ function getRunner(model, workflow) {
     }
     let modelStored = 0; // How many times the model is stored 
     if (workflow === 'quantize') {
-        modelStored = 2;
+        modelStored = 3;
     }
     if (workflow === 'convert') {
-        modelStored = 3;
+        modelStored = 4;
     }
     const size = parameterSize * 2; // assume float16
     const depenedencySize = 40; // assume 40GB
