@@ -29,3 +29,19 @@
   kitfileTemplate: ./kitfiles/llama3.yml
   quantization: f16
   conversionFlags: "--vocab-type bpe"
+- repo: meta-llama/Meta-Llama-3-70B-Instruct
+  name: llama3
+  parameterSize: 70B
+  variant: instruct
+  description: "Llama 3 70B instruct model"
+  kitfileTemplate: ./kitfiles/llama3.yml
+  quantization: f16
+  conversionFlags: "--vocab-type bpe"
+- repo: meta-llama/Meta-Llama-3-70B
+  name: llama3
+  parameterSize: 70B
+  variant: text
+  description: "Llama 3 70B text model"
+  kitfileTemplate: ./kitfiles/llama3.yml
+  quantization: f16
+  conversionFlags: "--vocab-type bpe"
