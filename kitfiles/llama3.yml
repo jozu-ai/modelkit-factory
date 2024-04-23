@@ -3,11 +3,11 @@ package:
   name: llama3
   version: 3.0.0
   description: >-
-   Llama 3 family of large language models (LLMs), a collection of pretrained and 
+   Llama 3 family of large language models (LLMs), a collection of pretrained and
    instruction tuned generative text models in 8 and 70B sizes.
   authors: [Meta Platforms, Inc.]
 code:
-  - path: LICENSE.txt
+  - path: LICENSE
     description: License file.
   - path: README.md
     description: Readme file.
