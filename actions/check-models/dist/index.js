@@ -26316,9 +26316,9 @@ function getRunner(model) {
     const depenedencySize = 40; // assume 40GB
     const totalSize = size * 2 + depenedencySize; // we store the model 2 times
     if (totalSize < runner["model-factory-runner"].valueOf()) {
-        return runner["model-factory-runner"].toString();
+        return "model-factory-runner";
     }
-    return runner["model-factory-runner-xl"].toString();
+    return "model-factory-runner-xl";
 }
 exports.getRunner = getRunner;
 
