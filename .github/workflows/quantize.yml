@@ -49,15 +49,18 @@ jobs:
             matrix:
                 qnt: ${{ fromJSON(inputs.model_target_qnt) }}
         steps:
-            - uses: actions/checkout@v4
+            - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+              with:
+                egress-policy: audit
+            - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
               with:
                 fetch-depth: 0
-            - uses: actions/setup-python@v5
+            - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
               with:
                 python-version: '3.10'
             - name: Install quantize dependencies
               run: ./scripts/check-quantize
-            - uses: jozu-ai/gh-kit-setup@v1.0.0
+            - uses: jozu-ai/gh-kit-setup@1960d89a6396444d03ad93abc1a74a4cf14baccd # v1.0.0
               name: install kit CLI
             - name: login to kit
               run: kit login ghcr.io --username ${{secrets.KIT_USER}} --password ${{secrets.KIT_PASSWORD}}
