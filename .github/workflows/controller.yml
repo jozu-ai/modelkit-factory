@@ -8,9 +8,14 @@ jobs:
       runs-on: ubuntu-latest
       permissions: write-all
       steps:
-          - uses: actions/checkout@v4
+          - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+            with:
+              egress-policy: audit
+
+          - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
+
           - name: install kit CLI
-            uses: jozu-ai/gh-kit-setup@v1.0.0
+            uses: jozu-ai/gh-kit-setup@1960d89a6396444d03ad93abc1a74a4cf14baccd # v1.0.0
 
           - id: controller
             uses: ./actions/check-models
