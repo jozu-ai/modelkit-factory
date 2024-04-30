@@ -4,7 +4,7 @@ package:
   version: 2.0.0
   description: >-
     Llama 2 is a collection of foundation language models ranging from 7B to 70B parameters.
-  authors: [Meta Platforms, Inc.]
+  authors: ["Meta Platforms, Inc."]
 code:
   - path: LICENSE.txt
     description: License file.

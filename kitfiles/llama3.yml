@@ -5,7 +5,7 @@ package:
   description: >-
    Llama 3 family of large language models (LLMs), a collection of pretrained and
    instruction tuned generative text models in 8 and 70B sizes.
-  authors: [Meta Platforms, Inc.]
+  authors: ["Meta Platforms, Inc."]
 code:
   - path: LICENSE
     description: License file.
