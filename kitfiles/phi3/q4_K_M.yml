@@ -1,0 +1,24 @@
+manifestVersion: 1.0.0
+package:
+  name: phi3
+  version: 3.0.0
+  description: >-
+   The Phi-3-Mini-4K-Instruct is a 3.8B parameters, lightweight, state-of-the-art open model
+  authors: ["Microsoft Corporation"]
+code:
+  - path: LICENSE
+    description: License file.
+  - path: README.md
+    description: Readme file.
+  - path: CODE_OF_CONDUCT.md
+    description: Code of conduct file.
+  - path: NOTICE.md
+    description: Notice file.
+  - path: SECURITY.md
+    description: Security file.
+model:
+  name: Phi-3-mini-4k-instruct-q4
+  path: Phi-3-mini-4k-instruct-q4.gguf
+  description: >-
+    medium, balanced quality - recommended
+  license: MIT License

@@ -26181,7 +26181,9 @@ const yaml = __importStar(__nccwpck_require__(4083));
 const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
 const fs = __importStar(__nccwpck_require__(7147));
-const workflow_input_types_1 = __nccwpck_require__(7837);
+const types_1 = __nccwpck_require__(5077);
+const workflow_runners_1 = __nccwpck_require__(4119);
+const utils_1 = __nccwpck_require__(1314);
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
@@ -26189,7 +26191,6 @@ const workflow_input_types_1 = __nccwpck_require__(7837);
 async function run() {
     core.info('Checking models...');
     const modelfile = core.getInput('models-file');
-    const quantizations = core.getInput('quantizations').split(',').map(q => q.trim());
     // Check if the modelfile exists
     if (!fs.existsSync(modelfile)) {
         core.setFailed(`The model list ${modelfile} does not exist.`);
@@ -26199,70 +26200,34 @@ async function run() {
     const content = fs.readFileSync(modelfile, 'utf-8');
     const models = yaml.parse(content);
     for (const model of models) {
-        const repo = getPublicJozuRepoName(model);
-        const hasRegistry = await registryExists(repo);
-        if (hasRegistry) {
-            const quantizedModel = { ...model };
-            const unquantized = [];
-            for (const quantization of quantizations) {
-                quantizedModel.quantization = quantization;
-                const quantizedRepo = getPublicJozuRepoName(quantizedModel);
-                const hasQuantizedRegistry = await registryExists(quantizedRepo);
-                if (!hasQuantizedRegistry) {
-                    unquantized.push(quantization);
+        const repo = (0, utils_1.getPublicJozuRepoName)(model);
+        if ((0, types_1.isModelWithProcessing)(model) === true) {
+            let quantizations = [];
+            for (const q of model.quantizations) {
+                const quantizedModel = { ...model };
+                quantizedModel.fp_precision = q;
+                const quantizedRepo = (0, utils_1.getPublicJozuRepoName)(quantizedModel);
+                const exists = await registryExists(quantizedRepo);
+                if (!exists) {
+                    quantizations.push(q);
                 }
             }
-            if (unquantized.length > 0) {
-                await startQuantizationFlow(model, unquantized);
+            model.quantizations = quantizations;
+            if (!await registryExists(repo)) {
+                await (0, workflow_runners_1.startConversionFlow)(model);
+            }
+            if (model.quantizations.length > 0) {
+                await (0, workflow_runners_1.startQuantizationFlow)(model);
             }
         }
         else {
-            await startConversionFlow(model);
+            if (!await registryExists(repo)) {
+                await (0, workflow_runners_1.startPackFlow)(model);
+            }
         }
     }
 }
 exports.run = run;
-function getPublicJozuRepoName(model) {
-    return `ghcr.io/jozu-ai/${model.name}:${model.parameterSize}-${model.variant}-${model.quantization}`;
-}
-async function startConversionFlow(model) {
-    const repo = getPublicJozuRepoName(model);
-    core.info(`Starting conversion flow for ${repo}`);
-    const options = {};
-    options.env = process.env;
-    options.input = Buffer.from(JSON.stringify((0, workflow_input_types_1.modelToConvertInputs)(model)));
-    try {
-        const result = await exec.getExecOutput("gh", ["workflow", "run", "convert-to-gguf.yml", `--json`], options);
-        if (result.exitCode !== 0) {
-            core.error(`Error running conversion flow for ${repo}`);
-            core.error(`stderr: ${result.stderr}`);
-        }
-        core.info(`🏃‍➡️ Conversion flow for ${repo} triggered `);
-    }
-    catch (error) {
-        core.error(`Error running conversion flow for ${repo}`);
-        core.error(`error: ${error}`);
-    }
-}
-async function startQuantizationFlow(model, quantizations) {
-    const repo = getPublicJozuRepoName(model);
-    core.info(`Starting conversion flow for ${repo} with quantizations ${quantizations.join(', ')}`);
-    const options = {};
-    options.env = process.env;
-    options.input = Buffer.from(JSON.stringify((0, workflow_input_types_1.modelToQuantizeInputs)(model, quantizations)));
-    try {
-        const result = await exec.getExecOutput("gh", ["workflow", "run", "quantize.yml", `--json`], options);
-        if (result.exitCode !== 0) {
-            core.error(`Error running quantization flow for ${repo}`);
-            core.error(`stderr: ${result.stderr}`);
-        }
-        core.info(`🏃‍➡️ Quantization flow for ${repo} triggered `);
-    }
-    catch (error) {
-        core.error(`Error running conversion flow for ${repo}`);
-        core.error(`error: ${error}`);
-    }
-}
 async function registryExists(repo) {
     core.info(`Checking ${repo}`);
     let stdout = '', stderr = '';
@@ -26274,7 +26239,7 @@ async function registryExists(repo) {
         stderr = result.stderr;
         if (result.exitCode == 0) {
             const manifest = JSON.parse(stdout);
-            if (manifest?.layers?.length > 0) {
+            if (manifest.manifest.layers?.length > 0) {
                 core.info(`✅ The modelkit ${repo} exists.`);
                 return true;
             }
@@ -26296,32 +26261,46 @@ run();
 /***/ }),
 
 /***/ 7359:
-/***/ ((__unused_webpack_module, exports) => {
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getRunner = void 0;
+const types_1 = __nccwpck_require__(5077);
 const runner = {
+    "ubuntu-latest": 35, // 35GB storage after clean up
     "model-factory-runner": 150, // 150GB storage
     "model-factory-runner-xl": 600, // 600GB storage
     "model-factory-runner-xxl": 1200 // 1200GB storage
 };
 function getRunner(model, workflow) {
-    let parameterSize = 0;
-    if (model.parameterSize.endsWith("B")) {
-        parameterSize = Number.parseInt(model.parameterSize.slice(0, -1));
+    let modelSize = 0;
+    if ((0, types_1.isModelWithProcessing)(model) === true) {
+        let parameterSize = 0; //number of parameters
+        if (model.parameterSize.toLocaleUpperCase().endsWith("B")) {
+            parameterSize = Number.parseFloat(model.parameterSize.slice(0, -1));
+            parameterSize = parameterSize * 1000000000;
+        }
+        modelSize = (parameterSize * 2) / 1000000000; // This assumes float16 (16/8= 2)
     }
-    let modelStored = 0; // How many times the model is stored 
+    else {
+        modelSize = Number.parseFloat(model.model_size.slice(0, -2));
+    }
+    let requiredStorage = 0;
     if (workflow === 'quantize') {
-        modelStored = 3;
+        // This is not a precise calculation the real size is 
+        // less  for quantizations 8 and smaller.
+        requiredStorage = modelSize * 2;
     }
     if (workflow === 'convert') {
-        modelStored = 4;
+        requiredStorage = modelSize * 3;
     }
-    const size = parameterSize * 2; // assume float16
-    const depenedencySize = 40; // assume 40GB
-    const totalSize = (size * modelStored) + depenedencySize; // we store the model 2 times
+    if (workflow === 'pack') {
+        requiredStorage = modelSize * 2;
+    }
+    const depenedencySize = 30;
+    const totalSize = workflow === 'pack' ? requiredStorage : requiredStorage + depenedencySize;
     let selectedRunner = "";
     for (const key in runner) {
         if (totalSize < runner[key]) {
@@ -26336,21 +26315,67 @@ exports.getRunner = getRunner;
 
 /***/ }),
 
+/***/ 5077:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.isModelPack = exports.isModelWithProcessing = void 0;
+// Type guard for ModelWithProcessing
+function isModelWithProcessing(model) {
+    return model.variant !== undefined;
+}
+exports.isModelWithProcessing = isModelWithProcessing;
+// Type guard for ModelPack
+function isModelPack(model) {
+    return model.modelkit_tag !== undefined;
+}
+exports.isModelPack = isModelPack;
+
+
+/***/ }),
+
+/***/ 1314:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getPublicJozuRepoName = void 0;
+const types_1 = __nccwpck_require__(5077);
+function getPublicJozuRepoName(model) {
+    if ((0, types_1.isModelWithProcessing)(model) === true) {
+        return `ghcr.io/jozu-ai/${model.name}:${model.parameterSize}-${model.variant}-${model.fp_precision}`;
+    }
+    else {
+        return `ghcr.io/jozu-ai/${model.name}:${model.modelkit_tag}`;
+    }
+}
+exports.getPublicJozuRepoName = getPublicJozuRepoName;
+
+
+/***/ }),
+
 /***/ 7837:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.modelToQuantizeInputs = exports.modelToConvertInputs = void 0;
+exports.modelToPackInputs = exports.modelToQuantizeInputs = exports.modelToConvertInputs = void 0;
 const runners_1 = __nccwpck_require__(7359);
+const types_1 = __nccwpck_require__(5077);
 function modelToConvertInputs(model) {
+    if ((0, types_1.isModelWithProcessing)(model) === false) {
+        throw new Error('Model is not a ModelWithProcessing');
+    }
     return {
         model_repo: model.repo,
         model_name: model.name,
         model_variant: model.variant,
         model_parameters: model.parameterSize,
-        model_qnt: model.quantization,
+        model_qnt: model.fp_precision,
         model_description: model.description,
         kitfile_template: model.kitfileTemplate,
         convert_flags: model.conversionFlags || '',
@@ -26358,19 +26383,142 @@ function modelToConvertInputs(model) {
     };
 }
 exports.modelToConvertInputs = modelToConvertInputs;
-function modelToQuantizeInputs(model, quantization) {
+function modelToQuantizeInputs(model) {
+    if ((0, types_1.isModelWithProcessing)(model) === false) {
+        throw new Error('Model is not a ModelWithProcessing');
+    }
     return {
         model_name: model.name,
         model_variant: model.variant,
-        model_src_qnt: model.quantization,
+        model_src_qnt: model.fp_precision,
         model_parameters: model.parameterSize,
-        model_target_qnt: JSON.stringify(quantization), // Target quantization
+        model_target_qnt: JSON.stringify(model.quantizations), // Target quantization
         model_description: model.description,
         kitfile_template: model.kitfileTemplate,
         runner: (0, runners_1.getRunner)(model, 'quantize').toString()
     };
 }
 exports.modelToQuantizeInputs = modelToQuantizeInputs;
+function modelToPackInputs(model) {
+    if ((0, types_1.isModelPack)(model) === false) {
+        throw new Error('Model is not a ModelPack');
+    }
+    return {
+        model_name: model.name,
+        model_repo: model.repo,
+        modelkit_tag: model.modelkit_tag,
+        kitfile: model.kitfile,
+        runner: (0, runners_1.getRunner)(model, 'pack').toString()
+    };
+}
+exports.modelToPackInputs = modelToPackInputs;
+
+
+/***/ }),
+
+/***/ 4119:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.startConversionFlow = exports.startQuantizationFlow = exports.startPackFlow = void 0;
+const core = __importStar(__nccwpck_require__(2186));
+const exec = __importStar(__nccwpck_require__(1514));
+const utils_1 = __nccwpck_require__(1314);
+const workflow_input_types_1 = __nccwpck_require__(7837);
+const types_1 = __nccwpck_require__(5077);
+async function startPackFlow(model) {
+    const repo = (0, utils_1.getPublicJozuRepoName)(model);
+    core.info(`Starting pack flow for ${repo} }`);
+    const options = {};
+    options.env = process.env;
+    options.input = Buffer.from(JSON.stringify((0, workflow_input_types_1.modelToPackInputs)(model)));
+    try {
+        const result = await exec.getExecOutput("gh", ["workflow", "run", "hf-to-modelkit.yml", `--json`], options);
+        if (result.exitCode !== 0) {
+            core.error(`Error running pack flow for ${repo}`);
+            core.error(`stderr: ${result.stderr}`);
+        }
+        core.info(`🏃‍➡️ Pack flow for ${repo} triggered `);
+    }
+    catch (error) {
+        core.error(`Error running pack flow for ${repo}`);
+        core.error(`error: ${error}`);
+    }
+}
+exports.startPackFlow = startPackFlow;
+async function startQuantizationFlow(model) {
+    if ((0, types_1.isModelWithProcessing)(model) === false) {
+        core.error(`Not the correct type for quantization flow for ${model.name}`);
+        return;
+    }
+    if (model.quantizations.length === 0) {
+        core.info(`No quantizations to run for ${model.name}`);
+        return;
+    }
+    const repo = (0, utils_1.getPublicJozuRepoName)(model);
+    core.info(`Starting conversion flow for ${repo} with quantizations ${model.quantizations.join(', ')}`);
+    const options = {};
+    options.env = process.env;
+    options.input = Buffer.from(JSON.stringify((0, workflow_input_types_1.modelToQuantizeInputs)(model)));
+    try {
+        const result = await exec.getExecOutput("gh", ["workflow", "run", "quantize.yml", `--json`], options);
+        if (result.exitCode !== 0) {
+            core.error(`Error running quantization flow for ${repo}`);
+            core.error(`stderr: ${result.stderr}`);
+        }
+        core.info(`🏃‍➡️ Quantization flow for ${repo} triggered `);
+    }
+    catch (error) {
+        core.error(`Error running conversion flow for ${repo}`);
+        core.error(`error: ${error}`);
+    }
+}
+exports.startQuantizationFlow = startQuantizationFlow;
+async function startConversionFlow(model) {
+    const repo = (0, utils_1.getPublicJozuRepoName)(model);
+    core.info(`Starting conversion flow for ${repo}`);
+    const options = {};
+    options.env = process.env;
+    options.input = Buffer.from(JSON.stringify((0, workflow_input_types_1.modelToConvertInputs)(model)));
+    try {
+        const result = await exec.getExecOutput("gh", ["workflow", "run", "convert-to-gguf.yml", `--json`], options);
+        if (result.exitCode !== 0) {
+            core.error(`Error running conversion flow for ${repo}`);
+            core.error(`stderr: ${result.stderr}`);
+        }
+        core.info(`🏃‍➡️ Conversion flow for ${repo} triggered `);
+    }
+    catch (error) {
+        core.error(`Error running conversion flow for ${repo}`);
+        core.error(`error: ${error}`);
+    }
+}
+exports.startConversionFlow = startConversionFlow;
 
 
 /***/ }),

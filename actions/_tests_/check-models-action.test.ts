@@ -15,8 +15,6 @@ describe("check-models-action", () => {
             switch (name) {
               case 'models-file':
                 return '../models.yaml'
-            case 'quantizations':
-                return 'q8_0, q5_0, q4_0'
               default:
                 return ''
             }

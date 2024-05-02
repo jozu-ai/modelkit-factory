@@ -1,0 +1,94 @@
+name: Pack ModelKit from Huggingface
+
+on:
+  workflow_dispatch:
+    inputs:
+      model_repo:
+          description: 'Huggingface repo'
+          type: string
+          required: true
+      model_name:
+          type: string
+          description: 'Model name'
+          required: true
+      modelkit_tag:
+          type: string
+          description: 'ModelKit tag'
+          required: true
+      kitfile:
+          type: string
+          description: 'Kitfile'
+          required: true
+      runner: 
+          type: string
+          description: 'Runner'
+          required: true
+          default: 'model-factory-runner'
+
+jobs:
+    convert-model:
+        runs-on: ${{ inputs.runner }}
+        permissions:
+          contents: read
+          packages: write
+        env:
+            HF_TOKEN: ${{ secrets.HUGGINGFACE_TOKEN }}
+            HF_HUB_ENABLE_HF_TRANSFER: 1
+        steps:
+            - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+              with:
+                egress-policy: audit
+            
+              # This hack frees up approx 25G.
+              # See the following issue for more info: https://github.com/actions/runner-images/issues/2840#issuecomment-1284059930
+            - name: Free up runner disk space
+              uses: ublue-os/remove-unwanted-software@e3843c85f5f9b73626845de0f5d44fb78ce22e12 # v6
+
+            - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
+              with:
+                fetch-depth: 0
+            - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
+              with:
+                python-version: '3.10'
+            - name: Install dependencies
+              run:  |
+                ./scripts/check-hf-cli
+            - name: download model
+              run: ./scripts/hf-clone ${{ inputs.model_repo }} ./model
+            - name: check diskspace after download
+              run: |
+                echo "Disk space after base model downloads"
+                df -h
+
+            - uses: jozu-ai/gh-kit-setup@1960d89a6396444d03ad93abc1a74a4cf14baccd # v1.0.0
+              name: install kit CLI
+            - name: login to kit
+              run: kit login ghcr.io --username ${{secrets.KIT_USER}} --password ${{secrets.KIT_PASSWORD}}
+            - name: check diskspace before pack
+              run: |
+                echo "Disk space before packing model"
+                df -h
+            - name: pack modelkit
+              run: |
+                tree ./model
+                kit pack ./model -f ${{inputs.kitfile}} -t ghcr.io/jozu-ai/${{inputs.model_name}}:${{inputs.modelkit_tag}} -v
+            - name: push modelkit
+              run: kit push ghcr.io/jozu-ai/${{inputs.model_name}}:${{inputs.modelkit_tag}} -v
+            - name: Install jq tool
+              run: |
+                sudo apt-get update
+                sudo apt-get install jq
+            - name: Get modelkit digest
+              env:
+                MODELKIT_REF: ghcr.io/jozu-ai/${{inputs.model_name}}
+                MODELKIT_TAG: ${{inputs.modelkit_tag}}
+              id: digest
+              run: |
+                  echo "modelkit_sha=$(kit inspect ${MODELKIT_REF}:${MODELKIT_TAG} --remote | jq -r '.digest')" >> $GITHUB_OUTPUT
+            - name: Install cosign
+              uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 # v3.5.0
+            - name: Sign modelkit
+              env:
+                MODELKIT_REF: ghcr.io/jozu-ai/${{inputs.model_name}}
+              run: |
+                cosign sign --yes --rekor-url "https://rekor.sigstore.dev/" $MODELKIT_REF:${{ steps.digest.outputs.image_sha }}

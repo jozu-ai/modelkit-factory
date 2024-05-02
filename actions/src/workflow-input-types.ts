@@ -1,5 +1,5 @@
 import { getRunner } from "./runners"
-import { Model } from "./types"
+import { Model, isModelPack, isModelWithProcessing } from "./types"
 
 export interface ConvertWorkflowInputs {
     model_repo: string  // HF repo
@@ -24,13 +24,24 @@ export interface QuantizeWorkflowInputs {
     runner: string // Runner to use
 }
 
+export interface PackWorkflowInputs {
+    model_name: string // Model name
+    model_repo: string // Model repo
+    modelkit_tag: string // ModelKit tag
+    kitfile: string // Kitfile
+    runner: string // Runner to use
+}
+
 export function modelToConvertInputs(model: Model): ConvertWorkflowInputs {
+    if(isModelWithProcessing(model) === false){  
+        throw new Error('Model is not a ModelWithProcessing')
+    }
     return {
         model_repo: model.repo,
         model_name: model.name,
         model_variant: model.variant,
         model_parameters: model.parameterSize,
-        model_qnt: model.quantization,
+        model_qnt: model.fp_precision,
         model_description: model.description,
         kitfile_template: model.kitfileTemplate,
         convert_flags: model.conversionFlags || '',
@@ -38,15 +49,31 @@ export function modelToConvertInputs(model: Model): ConvertWorkflowInputs {
     }
 }
 
-export function modelToQuantizeInputs(model: Model, quantization: string[]): QuantizeWorkflowInputs {
+export function modelToQuantizeInputs(model: Model): QuantizeWorkflowInputs {
+    if(isModelWithProcessing(model) === false){  
+        throw new Error('Model is not a ModelWithProcessing')
+    }
     return {
         model_name: model.name,
         model_variant: model.variant,
-        model_src_qnt: model.quantization,
+        model_src_qnt: model.fp_precision,
         model_parameters: model.parameterSize,
-        model_target_qnt: JSON.stringify(quantization), // Target quantization
+        model_target_qnt: JSON.stringify(model.quantizations), // Target quantization
         model_description: model.description,
         kitfile_template: model.kitfileTemplate,
         runner: getRunner(model,'quantize').toString()
+    }
+}
+
+export function modelToPackInputs(model: Model): PackWorkflowInputs {
+    if(isModelPack(model) === false){  
+        throw new Error('Model is not a ModelPack')
+    }
+    return {
+        model_name: model.name,
+        model_repo: model.repo,
+        modelkit_tag: model.modelkit_tag,
+        kitfile: model.kitfile,
+        runner: getRunner(model,'pack').toString()
     }
 }

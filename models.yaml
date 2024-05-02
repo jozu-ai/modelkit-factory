@@ -5,43 +5,60 @@
   parameterSize: 7b
   description: "Llama 2 7b text model"
   kitfileTemplate: ./kitfiles/llama2.yml
-  quantization: f16
+  fp_precision: f16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
 - repo: meta-llama/Llama-2-7b-chat
   name: llama-2
   parameterSize: 7b
   variant: chat
   description: "Llama 2 7b chat model"
   kitfileTemplate: ./kitfiles/llama2.yml
-  quantization: f16
+  fp_precision: f16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
 - repo: meta-llama/Meta-Llama-3-8B-Instruct
   name: llama3
   parameterSize: 8B
   variant: instruct
   description: "Llama 3 8B instruct model"
   kitfileTemplate: ./kitfiles/llama3.yml
-  quantization: f16
+  fp_precision: f16
   conversionFlags: "--vocab-type bpe"
+  quantizations: ["q8_0", "q5_0", "q4_0"]
 - repo: meta-llama/Meta-Llama-3-8B
   name: llama3
   parameterSize: 8B
   variant: text
   description: "Llama 3 8B text model"
   kitfileTemplate: ./kitfiles/llama3.yml
-  quantization: f16
+  fp_precision: f16
   conversionFlags: "--vocab-type bpe"
+  quantizations: ["q8_0", "q5_0", "q4_0"]
 - repo: meta-llama/Meta-Llama-3-70B-Instruct
   name: llama3
   parameterSize: 70B
   variant: instruct
   description: "Llama 3 70B instruct model"
   kitfileTemplate: ./kitfiles/llama3.yml
-  quantization: f16
+  fp_precision: f16
   conversionFlags: "--vocab-type bpe"
+  quantizations: ["q8_0", "q5_0", "q4_0"]
 - repo: meta-llama/Meta-Llama-3-70B
   name: llama3
   parameterSize: 70B
   variant: text
   description: "Llama 3 70B text model"
   kitfileTemplate: ./kitfiles/llama3.yml
-  quantization: f16
+  fp_precision: f16
   conversionFlags: "--vocab-type bpe"
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+- repo: microsoft/Phi-3-mini-4k-instruct-gguf
+  name: phi3
+  kitfile: ./kitfiles/phi/fp16.yml
+  modelkit_tag: 3.8b-mini-instruct-4k-fp16
+  model_size: 7.6GB
+- repo: microsoft/Phi-3-mini-4k-instruct-gguf
+  name: phi3
+  kitfile: ./kitfiles/phi/q4_K_M.yml
+  modelkit_tag: 3.8b-mini-instruct-4k-q4_K_M
+  model_size: 2.4GB
+
