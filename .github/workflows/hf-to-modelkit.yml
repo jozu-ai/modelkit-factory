@@ -90,6 +90,6 @@ jobs:
               uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 # v3.5.0
             - name: Sign modelkit
               env:
-                MODELKIT_REF: ghcr.io/jozu-ai/${{inputs.model_name}}
+                MODELKIT_REF: ghcr.io/jozu-ai/${{inputs.model_name}}@${{ steps.digest.outputs.modelkit_sha }}
               run: |
-                cosign sign --yes --rekor-url "https://rekor.sigstore.dev/" $MODELKIT_REF:${{ steps.digest.outputs.image_sha }}
+                cosign sign --yes --rekor-url "https://rekor.sigstore.dev/" $MODELKIT_REF
