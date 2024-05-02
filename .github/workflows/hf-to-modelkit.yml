@@ -92,4 +92,4 @@ jobs:
               env:
                 MODELKIT_REF: ghcr.io/jozu-ai/${{inputs.model_name}}@${{ steps.digest.outputs.modelkit_sha }}
               run: |
-                cosign sign --yes --registry-username=${{secrets.KIT_USER}} --registry-token=${{secrets.KIT_PASSWORD}} $MODELKIT_REF
+                cosign sign --yes --registry-username ${{secrets.KIT_USER}} --registry-password ${{secrets.KIT_PASSWORD}} $MODELKIT_REF
