@@ -71,7 +71,7 @@ jobs:
             - name: pack modelkit
               run: |
                 tree ./model
-                kit pack ./model -f ${{inputs.kitfile}} -t ghcr.io/jozu-ai/${{inputs.model_name}}:${{inputs.modelkit_tag}} -v
+                cat ${{inputs.kitfile}} | kit pack ./model -f - -t ghcr.io/jozu-ai/${{inputs.model_name}}:${{inputs.modelkit_tag}} -v
             - name: push modelkit
               run: kit push ghcr.io/jozu-ai/${{inputs.model_name}}:${{inputs.modelkit_tag}} -v
             - name: Install jq tool
