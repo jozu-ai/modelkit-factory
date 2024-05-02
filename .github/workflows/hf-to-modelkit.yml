@@ -31,6 +31,7 @@ jobs:
         permissions:
           contents: read
           packages: write
+          id-token: write
         env:
             HF_TOKEN: ${{ secrets.HUGGINGFACE_TOKEN }}
             HF_HUB_ENABLE_HF_TRANSFER: 1
