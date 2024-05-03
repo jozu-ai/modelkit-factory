@@ -61,4 +61,9 @@
   kitfile: ./kitfiles/phi3/q4_K_M.yml
   modelkit_tag: 3.8b-mini-instruct-4k-q4_K_M
   model_size: 2.4GB
+- repo: google/gemma-7b-it
+  name: gemma
+  kitfile: ./kitfiles/gemma/fp16.yml
+  modelkit_tag: 7b-instruct-fp16
+  model_size: 68GB
 
