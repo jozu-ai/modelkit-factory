@@ -63,7 +63,22 @@
   model_size: 2.4GB
 - repo: google/gemma-7b-it
   name: gemma
-  kitfile: ./kitfiles/gemma/fp16.yml
+  kitfile: ./kitfiles/gemma/7b-instruct-fp16.yml
   modelkit_tag: 7b-instruct-fp16
   model_size: 68GB
+- repo: google/gemma-7b
+  name: gemma
+  kitfile: ./kitfiles/gemma/7b-text-fp16.yml
+  modelkit_tag: 7b-text-fp16
+  model_size: 68GB
+- repo: google/gemma-2b-it
+  name: gemma
+  kitfile: ./kitfiles/gemma/2b-instruct-fp16.yml
+  modelkit_tag: 2b-instruct-fp16
+  model_size: 15GB
+- repo: google/gemma-2b
+  name: gemma
+  kitfile: ./kitfiles/gemma/2b-text-fp16.yml
+  modelkit_tag: 2b-text-fp16
+  model_size: 15GB
 
