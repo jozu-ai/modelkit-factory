@@ -81,4 +81,12 @@
   kitfile: ./kitfiles/gemma/2b-text-fp16.yml
   modelkit_tag: 2b-text-fp16
   model_size: 15GB
-
+- repo: google/gemma-7b-it
+  name: gemma
+  family: gemma
+  variant: instruct
+  parameterSize: 7b
+  description: "7B instruct version of the Gemma model."
+  kitfileTemplate: ./kitfiles/gemma/2b-instruct-fp16.yml
+  fp_precision: fp16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
