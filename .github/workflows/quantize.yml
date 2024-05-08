@@ -77,8 +77,8 @@ jobs:
                 kit unpack ghcr.io/jozu-ai/${{inputs.model_name}}:${{inputs.model_parameters}}-${{inputs.model_variant}}-${{inputs.model_src_qnt}} -d ./model
             - name: quantize model
               run: |
-                MODEL_PATH= $(yq eval '.model.path' ./model/Kitfile)
-                ./scripts/quantize ./model/${MODEL_PATH}
+                MODEL_PATH=$(yq eval '.model.path' ./model/Kitfile)
+                ./scripts/quantize ./model/$MODEL_PATH
                 ./model/${{inputs.model_name}}-${{inputs.model_parameters}}-${{inputs.model_variant}}-${{matrix.qnt}}.gguf ${{matrix.qnt}}
             - name: generate kitfile
               run: |
