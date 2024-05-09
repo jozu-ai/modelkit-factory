@@ -104,3 +104,21 @@ jobs:
                 kit pack ./model -t ghcr.io/jozu-ai/${{inputs.model_name}}:${{inputs.model_parameters}}-${{inputs.model_variant}}-${{inputs.model_qnt}} -v
             - name: push modelkit
               run: kit push ghcr.io/jozu-ai/${{inputs.model_name}}:${{inputs.model_parameters}}-${{inputs.model_variant}}-${{inputs.model_qnt}} -v
+            - name: Install jq tool
+              run: |
+                sudo apt-get update
+                sudo apt-get install jq
+            - name: Get modelkit digest
+              env:
+                MODELKIT_REF: ghcr.io/jozu-ai/${{inputs.model_name}}
+                MODELKIT_TAG: ${{inputs.model_parameters}}-${{inputs.model_variant}}-${{inputs.model_qnt}}
+              id: digest
+              run: |
+                  echo "modelkit_sha=$(kit inspect ${MODELKIT_REF}:${MODELKIT_TAG} --remote | jq -r '.digest')" >> $GITHUB_OUTPUT
+            - name: Install cosign
+              uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 # v3.5.0
+            - name: Sign modelkit
+              env:
+                MODELKIT_REF: ghcr.io/jozu-ai/${{inputs.model_name}}@${{ steps.digest.outputs.modelkit_sha }}
+              run: |
+                cosign sign --yes --registry-username ${{secrets.KIT_USER}} --registry-password ${{secrets.KIT_PASSWORD}} $MODELKIT_REF
