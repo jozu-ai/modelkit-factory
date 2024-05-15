@@ -24,6 +24,8 @@ code:
     description: Detailed tokenizer configuration.
   - path: vocab.txt
     description: Vocabulary file.
+  - path: 1_Pooling/config.json
+    description: Configuration file for pooling layer.
 model:
   name: all-miniLM-L6-V2
   path: model.safetensors
