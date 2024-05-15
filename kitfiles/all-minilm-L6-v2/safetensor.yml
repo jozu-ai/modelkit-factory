@@ -1,0 +1,32 @@
+manifestVersion: 1.0.0
+package:
+  name:  all-miniLM-L6-V2
+  description: >-
+    This is a sentence-transformers model: It maps sentences & paragraphs to a 384 dimensional
+    dense vector space and can be used for tasks like clustering or semantic search.
+  authors: ["Sentence Transformers"]
+code:
+  - path: README.md
+    description: Readme file.
+  - path: config.json
+    description: Configuration file.
+  - path: config_sentence_transformers.json
+    description: Configuration file for sentence transformers.
+  - path: modules.json
+    description: Modules configuration file.
+  - path: sentence_bert_config.json
+    description: Configuration file for Sentence-BERT model.
+  - path: special_tokens_map.json
+    description: Mapping of special tokens.
+  - path: tokenizer.json
+    description: Tokenizer configuration.
+  - path: tokenizer_config.json
+    description: Detailed tokenizer configuration.
+  - path: vocab.txt
+    description: Vocabulary file.
+model:
+  name: all-miniLM-L6-V2
+  path: model.safetensors
+  description: >-
+     Model weights saved in SafeTensors format.
+  license: Apache 2.0
