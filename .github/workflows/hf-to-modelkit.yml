@@ -74,7 +74,7 @@ jobs:
                 tree ./model
                 cat ${{inputs.kitfile}} | kit pack ./model -f - -t ghcr.io/jozu-ai/${{inputs.model_name}}:${{inputs.modelkit_tag}} -v
             - name: push modelkit
-              run: kit push ghcr.io/jozu-ai/${{inputs.model_name}}:${{inputs.modelkit_tag}} -v
+              run: kit push ghcr.io/jozu-ai/${{inputs.model_name}}:${{inputs.modelkit_tag}} -v --log-level trace
             - name: Install jq tool
               run: |
                 sudo apt-get update
@@ -93,3 +93,4 @@ jobs:
                 MODELKIT_REF: ghcr.io/jozu-ai/${{inputs.model_name}}@${{ steps.digest.outputs.modelkit_sha }}
               run: |
                 cosign sign --yes --registry-username ${{secrets.KIT_USER}} --registry-password ${{secrets.KIT_PASSWORD}} $MODELKIT_REF
+                
