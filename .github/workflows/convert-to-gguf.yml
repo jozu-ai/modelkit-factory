@@ -93,7 +93,7 @@ jobs:
             - uses: jozu-ai/gh-kit-setup@1960d89a6396444d03ad93abc1a74a4cf14baccd # v1.0.0
               name: install kit CLI
             - name: login to kit
-              run: kit login jozu.ml --username ${{secrets.KIT_USER}} --password ${{secrets.KIT_PASSWORD}}
+              run: kit login jozu.ml --username "${{secrets.KIT_USER}}" --password "${{secrets.KIT_PASSWORD}}"
             - name: check diskspace before pack
               run: |
                 echo "Disk space before packing model"
