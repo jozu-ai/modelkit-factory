@@ -21,6 +21,8 @@ jobs:
 
           - name: install kit CLI
             uses: jozu-ai/gh-kit-setup@1960d89a6396444d03ad93abc1a74a4cf14baccd # v1.0.0
+          - name: login to kit  # to verify the username/password
+            run: kit login jozu.ml --username "${{secrets.KIT_USER}}" --password "${{secrets.KIT_PASSWORD}}"
 
           - id: controller
             uses: ./actions/check-models
