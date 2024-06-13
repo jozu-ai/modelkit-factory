@@ -1,9 +1,9 @@
 
-- repo: microsoft/Phi-3-mini-4k-instruct-gguf
-  name: phi3
-  kitfile: ./kitfiles/phi3/fp16.yml
-  modelkit_tag: 3.8b-mini-instruct-4k-fp16
-  model_size: 7.6GB
+# - repo: microsoft/Phi-3-mini-4k-instruct-gguf
+#   name: phi3
+#   kitfile: ./kitfiles/phi3/fp16.yml
+#   modelkit_tag: 3.8b-mini-instruct-4k-fp16
+#   model_size: 7.6GB
 - repo: microsoft/Phi-3-mini-4k-instruct-gguf
   name: phi3
   kitfile: ./kitfiles/phi3/q4_K_M.yml
