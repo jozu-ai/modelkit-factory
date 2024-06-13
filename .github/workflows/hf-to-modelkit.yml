@@ -92,5 +92,5 @@ jobs:
               env:
                 MODELKIT_REF: jozu.ml/jozu/${{inputs.model_name}}@${{ steps.digest.outputs.modelkit_sha }}
               run: |
-                cosign sign --yes --registry-username ${{secrets.KIT_USER}} --registry-password ${{secrets.KIT_PASSWORD}} $MODELKIT_REF
+                cosign sign --yes --registry-username "${{secrets.KIT_USER}}" --registry-password "${{secrets.KIT_PASSWORD}}" $MODELKIT_REF
                 
