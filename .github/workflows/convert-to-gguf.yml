@@ -93,7 +93,7 @@ jobs:
             - uses: jozu-ai/gh-kit-setup@1960d89a6396444d03ad93abc1a74a4cf14baccd # v1.0.0
               name: install kit CLI
             - name: login to kit
-              run: kit login ghcr.io --username ${{secrets.KIT_USER}} --password ${{secrets.KIT_PASSWORD}}
+              run: kit login jozu.ml --username ${{secrets.KIT_USER}} --password ${{secrets.KIT_PASSWORD}}
             - name: check diskspace before pack
               run: |
                 echo "Disk space before packing model"
@@ -101,16 +101,16 @@ jobs:
             - name: pack modelkit
               run: |
                 tree ./model
-                kit pack ./model -t ghcr.io/jozu-ai/${{inputs.model_name}}:${{inputs.model_parameters}}-${{inputs.model_variant}}-${{inputs.model_qnt}} -v
+                kit pack ./model -t jozu.ml/jozu/${{inputs.model_name}}:${{inputs.model_parameters}}-${{inputs.model_variant}}-${{inputs.model_qnt}} -v
             - name: push modelkit
-              run: kit push ghcr.io/jozu-ai/${{inputs.model_name}}:${{inputs.model_parameters}}-${{inputs.model_variant}}-${{inputs.model_qnt}} -v --log-level trace
+              run: kit push jozu.ml/jozu/${{inputs.model_name}}:${{inputs.model_parameters}}-${{inputs.model_variant}}-${{inputs.model_qnt}} -v --log-level trace
             - name: Install jq tool
               run: |
                 sudo apt-get update
                 sudo apt-get install jq
             - name: Get modelkit digest
               env:
-                MODELKIT_REF: ghcr.io/jozu-ai/${{inputs.model_name}}
+                MODELKIT_REF: jozu.ml/jozu/${{inputs.model_name}}
                 MODELKIT_TAG: ${{inputs.model_parameters}}-${{inputs.model_variant}}-${{inputs.model_qnt}}
               id: digest
               run: |
@@ -119,7 +119,7 @@ jobs:
               uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 # v3.5.0
             - name: Sign modelkit
               env:
-                MODELKIT_REF: ghcr.io/jozu-ai/${{inputs.model_name}}@${{ steps.digest.outputs.modelkit_sha }}
+                MODELKIT_REF: jozu.ml/jozu/${{inputs.model_name}}@${{ steps.digest.outputs.modelkit_sha }}
               run: |
                 cosign sign --yes --registry-username ${{secrets.KIT_USER}} --registry-password ${{secrets.KIT_PASSWORD}} $MODELKIT_REF
                 
