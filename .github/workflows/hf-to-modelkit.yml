@@ -74,7 +74,7 @@ jobs:
                 tree ./model
                 cat ${{inputs.kitfile}} | kit pack ./model -f - -t jozu.ml/jozu/${{inputs.model_name}}:${{inputs.modelkit_tag}} -v
             - name: push modelkit
-              run: kit push jozu.ml/jozu/${{inputs.model_name}}:${{inputs.modelkit_tag}} -v --log-level trace
+              run: kit push jozu.ml/jozu/${{inputs.model_name}}:${{inputs.modelkit_tag}} -v --log-level=trace --progress=none
             - name: Install jq tool
               run: |
                 sudo apt-get update
