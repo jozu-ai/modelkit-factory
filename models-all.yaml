@@ -1,0 +1,124 @@
+- repo: meta-llama/Llama-2-7b
+  name: llama-2
+  family: llama
+  variant: text
+  parameterSize: 7b
+  description: "Llama 2 7b text model"
+  kitfileTemplate: ./kitfiles/llama2.yml
+  fp_precision: f16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+- repo: meta-llama/Llama-2-7b-chat
+  name: llama-2
+  parameterSize: 7b
+  variant: chat
+  description: "Llama 2 7b chat model"
+  kitfileTemplate: ./kitfiles/llama2.yml
+  fp_precision: f16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+- repo: meta-llama/Meta-Llama-3-8B-Instruct
+  name: llama3
+  parameterSize: 8B
+  variant: instruct
+  description: "Llama 3 8B instruct model"
+  kitfileTemplate: ./kitfiles/llama3.yml
+  fp_precision: f16
+  conversionFlags: "--vocab-type bpe"
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+- repo: meta-llama/Meta-Llama-3-8B
+  name: llama3
+  parameterSize: 8B
+  variant: text
+  description: "Llama 3 8B text model"
+  kitfileTemplate: ./kitfiles/llama3.yml
+  fp_precision: f16
+  conversionFlags: "--vocab-type bpe"
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+- repo: meta-llama/Meta-Llama-3-70B-Instruct
+  name: llama3
+  parameterSize: 70B
+  variant: instruct
+  description: "Llama 3 70B instruct model"
+  kitfileTemplate: ./kitfiles/llama3.yml
+  fp_precision: f16
+  conversionFlags: "--vocab-type bpe"
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+- repo: meta-llama/Meta-Llama-3-70B
+  name: llama3
+  parameterSize: 70B
+  variant: text
+  description: "Llama 3 70B text model"
+  kitfileTemplate: ./kitfiles/llama3.yml
+  fp_precision: f16
+  conversionFlags: "--vocab-type bpe"
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+- repo: microsoft/Phi-3-mini-4k-instruct-gguf
+  name: phi3
+  kitfile: ./kitfiles/phi3/fp16.yml
+  modelkit_tag: 3.8b-mini-instruct-4k-fp16
+  model_size: 7.6GB
+- repo: microsoft/Phi-3-mini-4k-instruct-gguf
+  name: phi3
+  kitfile: ./kitfiles/phi3/q4_K_M.yml
+  modelkit_tag: 3.8b-mini-instruct-4k-q4_K_M
+  model_size: 2.4GB
+- repo: google/gemma-7b-it
+  name: gemma
+  kitfile: ./kitfiles/gemma/7b-instruct-fp16.yml
+  modelkit_tag: 7b-instruct-fp16
+  model_size: 68GB
+- repo: google/gemma-7b
+  name: gemma
+  kitfile: ./kitfiles/gemma/7b-text-fp16.yml
+  modelkit_tag: 7b-text-fp16
+  model_size: 68GB
+- repo: google/gemma-2b-it
+  name: gemma
+  kitfile: ./kitfiles/gemma/2b-instruct-fp16.yml
+  modelkit_tag: 2b-instruct-fp16
+  model_size: 15GB
+- repo: google/gemma-2b
+  name: gemma
+  kitfile: ./kitfiles/gemma/2b-text-fp16.yml
+  modelkit_tag: 2b-text-fp16
+  model_size: 15GB
+- repo: google/gemma-7b-it
+  name: gemma
+  family: gemma
+  variant: instruct
+  parameterSize: 7b
+  description: "7B instruct version of the Gemma model."
+  kitfileTemplate: ./kitfiles/gemma/2b-instruct-fp16.yml
+  fp_precision: fp16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+- repo: google/gemma-7b
+  name: gemma
+  family: gemma
+  variant: text
+  parameterSize: 7b
+  description: "7B base version of the Gemma model."
+  kitfileTemplate: ./kitfiles/gemma/2b-instruct-fp16.yml
+  fp_precision: fp16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+- repo: google/gemma-2b-it
+  name: gemma
+  family: gemma
+  variant: instruct
+  parameterSize: 2b
+  description: "2B instruct version of the Gemma model."
+  kitfileTemplate: ./kitfiles/gemma/2b-instruct-fp16.yml
+  fp_precision: fp16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+- repo: google/gemma-2b
+  name: gemma
+  family: gemma
+  variant: text
+  parameterSize: 2b
+  description: "2B base version of the Gemma model."
+  kitfileTemplate: ./kitfiles/gemma/2b-instruct-fp16.yml
+  fp_precision: fp16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+- repo: sentence-transformers/all-MiniLM-L6-v2
+  name: all-minilm-l6-v2
+  kitfile: kitfiles/all-minilm-L6-v2/safetensor.yml
+  modelkit_tag: safetensor
+  model_size: 1GB
