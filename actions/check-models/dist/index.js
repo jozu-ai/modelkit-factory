@@ -26346,10 +26346,10 @@ exports.getPublicJozuRepoName = void 0;
 const types_1 = __nccwpck_require__(5077);
 function getPublicJozuRepoName(model) {
     if ((0, types_1.isModelWithProcessing)(model) === true) {
-        return `ghcr.io/jozu-ai/${model.name}:${model.parameterSize}-${model.variant}-${model.fp_precision}`;
+        return `jozu.ml/jozu/${model.name}:${model.parameterSize}-${model.variant}-${model.fp_precision}`;
     }
     else {
-        return `ghcr.io/jozu-ai/${model.name}:${model.modelkit_tag}`;
+        return `jozu.ml/jozu/${model.name}:${model.modelkit_tag}`;
     }
 }
 exports.getPublicJozuRepoName = getPublicJozuRepoName;
