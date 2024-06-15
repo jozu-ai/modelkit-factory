@@ -10,7 +10,6 @@ check_and_clone_llamacpp() {
         echo "Directory already exists. Skipping cloning."
     else
         git clone https://github.com/ggerganov/llama.cpp.git
-        build_quantize
     fi
 }
 
@@ -22,7 +21,7 @@ build_quantize() {
         echo "Building quantize..."
         mkdir -p ${LLAMA_BUILD_DIR}
         cmake -S ./llama.cpp -B ${LLAMA_BUILD_DIR} -DCMAKE_BUILD_TYPE=Release 
-        cmake --build ${LLAMA_BUILD_DIR} -j8 --target quantize
+        cmake --build ${LLAMA_BUILD_DIR} -j8 --target llama-quantize
     fi
 }
 
