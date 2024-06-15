@@ -5,7 +5,7 @@
   parameterSize: 2b
   description: "2B instruct version of the Gemma model."
   kitfileTemplate: ./kitfiles/gemma/2b-instruct-fp16.yml
-  fp_precision: fp16
+  fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
 - repo: google/gemma-2b
   name: gemma
@@ -14,7 +14,7 @@
   parameterSize: 2b
   description: "2B base version of the Gemma model."
   kitfileTemplate: ./kitfiles/gemma/2b-instruct-fp16.yml
-  fp_precision: fp16
+  fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
 - repo: microsoft/Phi-3-mini-4k-instruct-gguf
   name: phi3
