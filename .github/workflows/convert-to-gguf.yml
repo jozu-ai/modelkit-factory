@@ -51,7 +51,7 @@ jobs:
     env:
       HF_TOKEN: ${{ secrets.HUGGINGFACE_TOKEN }}
       HF_HUB_ENABLE_HF_TRANSFER: 1
-      KITOPS_HOME: ".kitops-build"
+      KITOPS_HOME: "/home/runner/work/.kitops-build"
       TARGET_R2_BUCKET_NAME: "prod-blobs"
     steps:
       - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
