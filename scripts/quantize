@@ -6,7 +6,7 @@ source ./scripts/common
 
 
 quantize() {
-    time ${LLAMA_BUILD_DIR}/bin/quantize  $1 $2 $3
+    time ${LLAMA_BUILD_DIR}/bin/llama-quantize  $1 $2 $3
 }
 
 if [ $# -eq 0 ]; then
