@@ -81,6 +81,8 @@
   kitfileTemplate: ./kitfiles/gemma/2b-instruct-fp16.yml
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
+
+## moved to models.yaml alread
 - repo: google/gemma-2b
   name: gemma
   family: gemma
@@ -90,8 +92,6 @@
   kitfileTemplate: ./kitfiles/gemma/2b-instruct-fp16.yml
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
-
-## moved to models.yaml alread
 - repo: meta-llama/Meta-Llama-3-8B-Instruct
   name: llama3
   parameterSize: 8B
