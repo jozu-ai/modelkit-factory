@@ -46,7 +46,7 @@ jobs:
       contents: read
       packages: write
     env:
-      KITOPS_HOME: "$HOME/kitops-build/"
+      KITOPS_HOME: ".kitops-build"
       TARGET_R2_BUCKET_NAME: "prod-blobs"
     strategy:
       matrix:
