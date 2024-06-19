@@ -7,6 +7,15 @@
   kitfileTemplate: ./kitfiles/gemma/2b-instruct-fp16.yml
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
+- repo: google/gemma-7b
+  name: gemma
+  family: gemma
+  variant: text
+  parameterSize: 7b
+  description: "7B base version of the Gemma model."
+  kitfileTemplate: ./kitfiles/gemma/7b-text-fp16.yml
+  fp_precision: f16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
 - repo: meta-llama/Meta-Llama-3-8B-Instruct
   name: llama3
   parameterSize: 8B
