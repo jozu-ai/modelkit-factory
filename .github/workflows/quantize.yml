@@ -45,6 +45,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+      id-token: write
     env:
       KITOPS_HOME: "/home/runner/work/.kitops-build"
       TARGET_R2_BUCKET_NAME: "prod-blobs"
