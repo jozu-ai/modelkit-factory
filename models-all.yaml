@@ -57,7 +57,6 @@
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
-## moved to models.yaml already
 - repo: meta-llama/Llama-2-7b
   name: llama-2
   family: llama
@@ -75,7 +74,10 @@
   kitfileTemplate: ./kitfiles/llama2.yml
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
-  
+
+
+## moved to models.yaml already
+
 - repo: google/gemma-7b
   name: gemma
   family: gemma

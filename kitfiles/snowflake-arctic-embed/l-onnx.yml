@@ -1,0 +1,16 @@
+manifestVersion: 1.0.0
+package:
+  name: snowflake-arctic-embed-l
+  description: >-
+    snowflake-arctic-embed is a suite of text embedding models that focuses on 
+    creating high-quality retrieval models optimized for performance.
+  authors: ["Snowflake"]
+code:
+  - path: README.md
+    description: Readme file.
+model:
+  name: snowflake-arctic-embed-l
+  path: onnx/model.onnx
+  description: >-
+     Model weights saved in onnx format.
+  license: Apache 2.0
