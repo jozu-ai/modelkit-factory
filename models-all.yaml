@@ -1,20 +1,4 @@
-- repo: meta-llama/Llama-2-7b
-  name: llama-2
-  family: llama
-  variant: text
-  parameterSize: 7b
-  description: "Llama 2 7b text model"
-  kitfileTemplate: ./kitfiles/llama2.yml
-  fp_precision: f16
-  quantizations: ["q8_0", "q5_0", "q4_0"]
-- repo: meta-llama/Llama-2-7b-chat
-  name: llama-2
-  parameterSize: 7b
-  variant: chat
-  description: "Llama 2 7b chat model"
-  kitfileTemplate: ./kitfiles/llama2.yml
-  fp_precision: f16
-  quantizations: ["q8_0", "q5_0", "q4_0"]
+
 
 - repo: google/gemma-7b-it
   name: gemma
@@ -74,6 +58,24 @@
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
 ## moved to models.yaml already
+- repo: meta-llama/Llama-2-7b
+  name: llama-2
+  family: llama
+  variant: text
+  parameterSize: 7b
+  description: "Llama 2 7b text model"
+  kitfileTemplate: ./kitfiles/llama2.yml
+  fp_precision: f16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+- repo: meta-llama/Llama-2-7b-chat
+  name: llama-2
+  parameterSize: 7b
+  variant: chat
+  description: "Llama 2 7b chat model"
+  kitfileTemplate: ./kitfiles/llama2.yml
+  fp_precision: f16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+  
 - repo: google/gemma-7b
   name: gemma
   family: gemma
