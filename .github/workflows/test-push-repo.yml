@@ -1,0 +1,78 @@
+name: Push to a repo (testing)
+
+on:
+  workflow_dispatch:
+    inputs:
+      registry:
+        description: "Registry to push to"
+        type: string
+        required: true
+      repo_name:
+        description: "Repository to push to, including tag"
+        type: string
+        required: true
+      model_size:
+        description: "Size of model to be built, in GiB"
+        type: number
+        required: true
+
+jobs:
+  push-model:
+    runs-on: ubuntu-latest
+    env:
+      KITOPS_HOME: ".kitops-build"
+    steps:
+      - name: "Install kit CLI"
+        uses: jozu-ai/gh-kit-setup@1960d89a6396444d03ad93abc1a74a4cf14baccd # v1.0.0
+
+      - name: "Preflight checks"
+        run: |
+          if [ ${{inputs.registry}} == "jozu.ml" ]; then
+            echo "This job is not meant for pushing to production!"
+            exit 1
+          fi
+
+      - name: "Login to repo"
+        run: |
+          kit login ${{inputs.registry}} --username "${{secrets.JOZU_HUB_STAGE_USERNAME}}" --password "${{secrets.JOZU_HUB_STAGE_PASSWORD}}"
+
+      - name: "Pack the modelkit"
+        run: |
+          mkdir ./model
+
+          # Generate kitfile
+          cat <<EOF > ./model/Kitfile
+          manifestVersion: "1.0.0"
+          package:
+            name: "test-modelkit"
+            version: "0.0.1"
+            description: "Testing modelkit"
+          model:
+            name: "test-model"
+            path: "./model.bin"
+            description: "Modelkit for testing"
+            license: MIT
+          EOF
+
+          # Generate model.bin
+          size=$(bc <<< "scale=0;${{inputs.model_size}}*1024*1024*1024")
+          size=${size%.*}
+          echo "Generating file with size $size bytes"
+          head -c $size < /dev/urandom > ./model/model.bin
+
+          echo "Packing modelkit"
+          modelkit_ref="${{inputs.registry}}/${{inputs.repo_name}}"
+          kit pack -t "${modelkit_ref}" ./model --progress=none --log-level=trace
+
+          echo "Cleaning up"
+          rm -rf ./model
+
+      - name: "Push modelkit"
+        run: |
+          modelkit_ref="${{inputs.registry}}/${{inputs.repo_name}}"
+          kit push ${modelkit_ref} --log-level=trace --progress=none
+
+      - name: "Check modelkit"
+        run: |
+          modelkit_ref="${{inputs.registry}}/${{inputs.repo_name}}"
+          kit inspect --remote "${modelkit_ref}"
