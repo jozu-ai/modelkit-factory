@@ -20,7 +20,7 @@ jobs:
   push-model:
     runs-on: ubuntu-latest
     env:
-      KITOPS_HOME: ".kitops-build"
+      KITOPS_HOME: "/home/runner/work/modelkit-factory/modelkit-factory/.kitops-build"
     steps:
       - name: "Install kit CLI"
         uses: jozu-ai/gh-kit-setup@1960d89a6396444d03ad93abc1a74a4cf14baccd # v1.0.0
@@ -70,7 +70,7 @@ jobs:
       - name: "Push modelkit"
         run: |
           modelkit_ref="${{inputs.registry}}/${{inputs.repo_name}}"
-          kit push ${modelkit_ref} --log-level=trace --progress=none
+          kit push "${modelkit_ref}" --log-level=trace --progress=none
 
       - name: "Check modelkit"
         run: |
