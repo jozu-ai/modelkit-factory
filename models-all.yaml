@@ -40,22 +40,7 @@
   kitfileTemplate: ./kitfiles/gemma/2b-instruct-fp16.yml
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
-- repo: meta-llama/Meta-Llama-3-70B-Instruct
-  name: llama3
-  parameterSize: 70B
-  variant: instruct
-  description: "Llama 3 70B instruct model"
-  kitfileTemplate: ./kitfiles/llama3.yml
-  fp_precision: f16
-  quantizations: ["q8_0", "q5_0", "q4_0"]
-- repo: meta-llama/Meta-Llama-3-70B
-  name: llama3
-  parameterSize: 70B
-  variant: text
-  description: "Llama 3 70B text model"
-  kitfileTemplate: ./kitfiles/llama3.yml
-  fp_precision: f16
-  quantizations: ["q8_0", "q5_0", "q4_0"]
+
 
 - repo: meta-llama/Llama-2-7b
   name: llama-2
@@ -116,6 +101,24 @@
   fp_precision: f16
   conversionFlags: "--vocab-type bpe"
   quantizations: ["q8_0", "q5_0", "q4_0"]
+
+- repo: meta-llama/Meta-Llama-3-70B-Instruct
+  name: llama3
+  parameterSize: 70B
+  variant: instruct
+  description: "Llama 3 70B instruct model"
+  kitfileTemplate: ./kitfiles/llama3.yml
+  fp_precision: f16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+- repo: meta-llama/Meta-Llama-3-70B
+  name: llama3
+  parameterSize: 70B
+  variant: text
+  description: "Llama 3 70B text model"
+  kitfileTemplate: ./kitfiles/llama3.yml
+  fp_precision: f16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+
 
 - repo: microsoft/Phi-3-mini-4k-instruct-gguf
   name: phi3
