@@ -1,5 +1,3 @@
-
-
 - repo: google/gemma-7b-it
   name: gemma
   kitfile: ./kitfiles/gemma/7b-instruct-fp16.yml
@@ -42,25 +40,6 @@
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
 
-- repo: meta-llama/Llama-2-7b
-  name: llama-2
-  family: llama
-  variant: text
-  parameterSize: 7b
-  description: "Llama 2 7b text model"
-  kitfileTemplate: ./kitfiles/llama2.yml
-  fp_precision: f16
-  quantizations: ["q8_0", "q5_0", "q4_0"]
-- repo: meta-llama/Llama-2-7b-chat
-  name: llama-2
-  parameterSize: 7b
-  variant: chat
-  description: "Llama 2 7b chat model"
-  kitfileTemplate: ./kitfiles/llama2.yml
-  fp_precision: f16
-  quantizations: ["q8_0", "q5_0", "q4_0"]
-
-
 ## moved to models.yaml already
 
 - repo: google/gemma-7b
@@ -72,7 +51,7 @@
   kitfileTemplate: ./kitfiles/gemma/2b-instruct-fp16.yml
   fp_precision: fp16
   quantizations: ["q8_0", "q5_0", "q4_0"]
-  
+
 - repo: google/gemma-2b
   name: gemma
   family: gemma
@@ -82,7 +61,7 @@
   kitfileTemplate: ./kitfiles/gemma/2b-instruct-fp16.yml
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
-  
+
 - repo: meta-llama/Meta-Llama-3-8B-Instruct
   name: llama3
   parameterSize: 8B
@@ -156,3 +135,21 @@
   kitfile: kitfiles/bloom/3b.yml
   modelkit_tag: safetensor
   model_size: 6GB
+
+- repo: meta-llama/Llama-2-7b
+  name: llama-2
+  family: llama
+  variant: text
+  parameterSize: 7b
+  description: "Llama 2 7b text model"
+  kitfileTemplate: ./kitfiles/llama2.yml
+  fp_precision: f16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+- repo: meta-llama/Llama-2-7b-chat
+  name: llama-2
+  parameterSize: 7b
+  variant: chat
+  description: "Llama 2 7b chat model"
+  kitfileTemplate: ./kitfiles/llama2.yml
+  fp_precision: f16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
