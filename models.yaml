@@ -69,3 +69,23 @@
   kitfile: kitfiles/snowflake-arctic-embed/l-onnx.yml
   modelkit_tag: l-onnx
   model_size: 1GB
+- repo: bigscience/bloom-560m
+  name: bloom-560m
+  kitfile: kitfiles/bloom/560m.yml
+  modelkit_tag: safetensor
+  model_size: 1.1GB
+- repo: bigscience/bloom-1b1
+  name: bloom-1b1
+  kitfile: kitfiles/bloom/1b1.yml
+  modelkit_tag: safetensor
+  model_size: 2.1GB
+- repo: bigscience/bloom-1b7
+  name: bloom-1b7
+  kitfile: kitfiles/bloom/1b7.yml
+  modelkit_tag: safetensor
+  model_size: 3.4GB
+- repo: bigscience/bloom-3b
+  name: bloom-3b
+  kitfile: kitfiles/bloom/3b.yml
+  modelkit_tag: safetensor
+  model_size: 6GB

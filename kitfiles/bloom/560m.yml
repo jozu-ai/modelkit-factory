@@ -1,0 +1,25 @@
+manifestVersion: 1.0.0
+package:
+  name:  bloom
+  description: >-
+    This is a transformer-based multi-language model.
+  authors: ["BigScience"]
+code:
+  - path: LICENSE
+    description: License file.
+  - path: README.md
+    description: Readme file.
+  - path: config.json
+    description: Configuration file.
+  - path: special_tokens_map.json
+    description: Mapping of special tokens.
+  - path: tokenizer.json
+    description: Tokenizer configuration.
+  - path: tokenizer_config.json
+    description: Detailed tokenizer configuration.
+model:
+  name: bloom-560m
+  path: model.safetensors
+  description: >-
+     Model weights saved in SafeTensors format.
+  license: BigScience RAIL License v1.0
