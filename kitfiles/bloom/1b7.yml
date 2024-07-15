@@ -5,8 +5,6 @@ package:
     This is a transformer-based multi-language model.
   authors: ["BigScience"]
 code:
-  - path: LICENSE
-    description: License file.
   - path: README.md
     description: Readme file.
   - path: config.json
