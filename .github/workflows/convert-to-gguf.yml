@@ -82,7 +82,7 @@ jobs:
           df -h
       - name: convert model to gguf
         run: |
-          ./llama.cpp/convert-hf-to-gguf.py \
+          ./llama.cpp/convert_hf_to_gguf.py \
           ./model \
           --outfile ./model/${{inputs.model_name}}-${{inputs.model_parameters}}-${{inputs.model_variant}}-${{inputs.model_qnt}}.gguf \
           --outtype ${{inputs.model_qnt}} \
