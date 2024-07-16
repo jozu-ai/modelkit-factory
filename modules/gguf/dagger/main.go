@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	ggufConvertScript = "/app/convert-hf-to-gguf.py"
+	ggufConvertScript = "/app/convert_hf_to_gguf.py"
 	llamacppImageRef  = "ghcr.io/ggerganov/llama.cpp:full"
 	convertedFileName = "converted.gguf"
 	quantizedFileName = "quantized.gguf"
@@ -14,7 +14,7 @@ const (
 
 type Gguf struct{}
 
-func (m *Gguf) baseContainer() *Container {
+func (m *Gguf) BaseContainer() *Container {
 	return dag.Container().
 		From(llamacppImageRef)
 }
@@ -30,16 +30,15 @@ func (m *Gguf) ConvertToGGuf(
 	// +optional
 	parameters ...string) *dagger.File {
 
-	execWord := []string{"python3", ggufConvertScript, "./", "--outfile", convertedFileName}
+	execWord := []string{"python3", ggufConvertScript, "/src", "--outfile", convertedFileName}
 	if len(parameters) > 0 {
 		execWord = append(execWord, parameters...)
 	}
 	execOptions := &ContainerWithExecOpts{
 		SkipEntrypoint: true,
 	}
-	return m.baseContainer().
+	return m.BaseContainer().
 		WithMountedDirectory("/src", source).
-		WithWorkdir("/src").
 		WithExec(execWord, *execOptions).
 		File(convertedFileName)
 }
@@ -60,8 +59,8 @@ func (m *Gguf) Quantize(ctx context.Context,
 	execOptions := &ContainerWithExecOpts{
 		SkipEntrypoint: true,
 	}
-	return m.baseContainer().
-		WithWorkdir("/app").
+	return m.BaseContainer().
 		WithMountedFile(modelname, source).
-		WithExec(execWord, *execOptions).File(quantizedFileName)
+		WithExec(execWord, *execOptions).
+		File(quantizedFileName)
 }
