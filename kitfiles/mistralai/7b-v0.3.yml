@@ -1,0 +1,27 @@
+manifestVersion: 1.0.0
+package:
+  name:  mistral
+  description: >-
+    A Mistral-7B-v0.2 LLM with extended vocabulary.
+  authors: ["Mistral.ai"]
+code:
+  - path: README.md
+    description: Readme file.
+  - path: config.json
+    description: Configuration file.
+  - path: generation_config.json
+    description: Generation config file.
+  - path: params.json
+    description: Parameters.
+  - path: special_tokens_map.json
+    description: Mapping of special tokens.
+  - path: tokenizer.json
+    description: Tokenizer configuration.
+  - path: tokenizer_config.json
+    description: Detailed tokenizer configuration.
+model:
+  name: Mistral-7B-v0.3
+  path: consolidated.safetensors
+  description: >-
+     Model weights saved in SafeTensors format.
+  license: Apache v2.0

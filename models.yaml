@@ -115,6 +115,24 @@
   modelkit_tag: 3.8b-mini-instruct-4k-q4_K_M
   model_size: 2.4GB
 
+- repo: mistralai/Mistral-7B-v0.1
+  name: mistral-7B-v0.1
+  parameterSize: 7B
+  variant: text
+  description: "Mistral 7B v.0.1 text model"
+  kitfileTemplate: ./kitfiles/mistralai/7b-v0.1.yml
+  fp_precision: f16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+
+- repo: mistralai/Mistral-7B-Instruct-v0.1
+  name: mistral-7B-Instruct-v0.1
+  parameterSize: 7B
+  variant: instruct
+  description: "Mistral 7B v.0.1 instruct model"
+  kitfileTemplate: ./kitfiles/mistralai/7b-v0.1.yml
+  fp_precision: f16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+
 - repo: sentence-transformers/all-MiniLM-L6-v2
   name: all-minilm-l6-v2
   kitfile: kitfiles/all-minilm-L6-v2/safetensor.yml
