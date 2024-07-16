@@ -1,0 +1,19 @@
+manifestVersion: 1.0.0
+package:
+  name: qwen2-7B
+  version: 2.0.0
+  description: >-
+   The instruction-tuned 7B Qwen2 large language model.
+  authors: ["Alibaba Cloud"]
+code:
+  - path: LICENSE
+    description: License file.
+  - path: README.md
+    description: Readme file.
+
+model:
+  name: qwen2-7b-instruct-q6_k
+  path: qwen2-7b-instruct-q6_k.gguf
+  description: >-
+   7B-instruct-q6_k.
+  license: Apache 2.0
