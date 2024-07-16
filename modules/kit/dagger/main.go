@@ -10,7 +10,7 @@ import (
 
 const (
 	fplainHttp   = "--plain-http"
-	baseImageRef ="cgr.dev/chainguard/python:latest-dev"
+	baseImageRef = "cgr.dev/chainguard/wolfi-base:latest"
 	kitCommand = "/app/kit"
 )
 
@@ -136,11 +136,14 @@ func (m *Kit) downloadKit() *File {
 
 func (m *Kit) baseContainer() *Container {
 
+	cacheOpts := &ContainerWithMountedCacheOpts{
+		Sharing: Private,
+	}
 	if m.Container == nil {
 		m.Container = dag.Container().
 			From(baseImageRef).
 			WithFile(kitCommand, m.downloadKit()).
-			WithMountedCache("/.kitops", dag.CacheVolume("kitops"),).
+			WithMountedCache("/.kitops", dag.CacheVolume("kitops"), *cacheOpts).
 			WithEnvVariable("KITOPS_HOME", "/.kitops")
 
 	}
@@ -152,12 +155,9 @@ func (m *Kit) WithAuth(username string, password *Secret) *Kit {
 	if m.PlainHTTP {
 		cmd = append(cmd, fplainHttp)
 	}
-	execOptions := &ContainerWithExecOpts{
-		SkipEntrypoint: true,
-	}
 	m.Container = m.baseContainer().
 		WithSecretVariable("KIT_PASSWORD", password).
-		WithExec(cmd, *execOptions)
+		WithExec([]string{"/bin/sh", "-c", strings.Join(cmd, " ")})
 	return m
 }
 
