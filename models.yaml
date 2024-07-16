@@ -29,7 +29,7 @@
   model_size: 1.1GB
 
 - repo: google/gemma-2b
-  name: gemma
+  name: gemma-2b
   family: gemma
   variant: text
   parameterSize: 2b
@@ -39,7 +39,7 @@
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
 - repo: google/gemma-7b
-  name: gemma
+  name: gemma-7b
   family: gemma
   variant: text
   parameterSize: 7b
@@ -49,7 +49,7 @@
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
 - repo: meta-llama/Llama-2-7b
-  name: llama-2
+  name: llama2-7b
   family: llama
   variant: text
   parameterSize: 7b
@@ -59,7 +59,7 @@
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
 - repo: meta-llama/Llama-2-7b-chat
-  name: llama-2
+  name: llama2-7b
   parameterSize: 7b
   variant: chat
   description: "Llama 2 7b chat model"
@@ -68,7 +68,7 @@
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
 - repo: meta-llama/Meta-Llama-3-70B
-  name: llama3
+  name: llama3-70b
   parameterSize: 70B
   variant: text
   description: "Llama 3 70B text model"
@@ -77,7 +77,7 @@
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
 - repo: meta-llama/Meta-Llama-3-70B-Instruct
-  name: llama3
+  name: llama3-70b
   parameterSize: 70B
   variant: instruct
   description: "Llama 3 70B instruct model"
@@ -86,7 +86,7 @@
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
 - repo: meta-llama/Meta-Llama-3-8B
-  name: llama3
+  name: llama3-8b
   parameterSize: 8B
   variant: text
   description: "Llama 3 8B text model"
@@ -95,7 +95,7 @@
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
 - repo: meta-llama/Meta-Llama-3-8B-Instruct
-  name: llama3
+  name: llama3-8b
   parameterSize: 8B
   variant: instruct
   description: "Llama 3 8B instruct model"
@@ -116,7 +116,7 @@
   model_size: 2.4GB
 
 - repo: mistralai/Mistral-7B-v0.1
-  name: mistral-7B-v0.1
+  name: mistral-7b
   parameterSize: 7B
   variant: text
   description: "Mistral 7B v.0.1 text model"
@@ -125,7 +125,7 @@
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
 - repo: mistralai/Mistral-7B-Instruct-v0.1
-  name: mistral-7B-Instruct-v0.1
+  name: mistral-7b
   parameterSize: 7B
   variant: instruct
   description: "Mistral 7B v.0.1 instruct model"
