@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"dagger/kit/internal/dagger"
 	"errors"
 	"fmt"
 	"path/filepath"
@@ -11,14 +12,14 @@ import (
 const (
 	fplainHttp   = "--plain-http"
 	baseImageRef = "cgr.dev/chainguard/wolfi-base:latest"
-	kitCommand = "/app/kit"
+	kitCommand   = "/app/kit"
 )
 
 type Kit struct {
 	Registry  string
 	PlainHTTP bool
 	Version   string
-	Container *Container
+	Container *dagger.Container
 }
 
 func New(
@@ -61,7 +62,7 @@ func isValidFilter(filter string) bool {
 	return allowedFilters[filter]
 }
 
-func (m *Kit) downloadKit() *File {
+func (m *Kit) downloadKit() *dagger.File {
 
 	var release Release
 	var err error
@@ -134,10 +135,10 @@ func (m *Kit) downloadKit() *File {
 	return dag.CurrentModule().WorkdirFile("kit")
 }
 
-func (m *Kit) baseContainer() *Container {
+func (m *Kit) baseContainer() *dagger.Container {
 
-	cacheOpts := &ContainerWithMountedCacheOpts{
-		Sharing: Private,
+	cacheOpts := &dagger.ContainerWithMountedCacheOpts{
+		Sharing: dagger.Private,
 	}
 	if m.Container == nil {
 		m.Container = dag.Container().
@@ -150,7 +151,7 @@ func (m *Kit) baseContainer() *Container {
 	return m.Container
 }
 
-func (m *Kit) WithAuth(username string, password *Secret) *Kit {
+func (m *Kit) WithAuth(username string, password *dagger.Secret) *Kit {
 	cmd := []string{kitCommand, "login", "-v", m.Registry, "-u", username, "-p", "$KIT_PASSWORD"}
 	if m.PlainHTTP {
 		cmd = append(cmd, fplainHttp)
@@ -161,7 +162,7 @@ func (m *Kit) WithAuth(username string, password *Secret) *Kit {
 	return m
 }
 
-func (m *Kit) Pack(ctx context.Context, directory *Directory, reference string) (*Kit, error) {
+func (m *Kit) Pack(ctx context.Context, directory *dagger.Directory, reference string) (*Kit, error) {
 	cmd := []string{kitCommand, "pack", "/mnt", "-t", reference}
 	_, err := m.baseContainer().
 		WithMountedDirectory("/mnt", directory).
@@ -178,7 +179,7 @@ func (m *Kit) Unpack(ctx context.Context,
 	reference string,
 	// the artifacts to unpack
 	// +optional
-	filter []string) (*Directory, error) {
+	filter []string) (*dagger.Directory, error) {
 	cmd := []string{kitCommand, "unpack", reference, "-d", "/unpack"}
 	for _, f := range filter {
 		if !isValidFilter(f) {

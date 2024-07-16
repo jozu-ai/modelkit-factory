@@ -14,7 +14,7 @@ const (
 
 type Gguf struct{}
 
-func (m *Gguf) BaseContainer() *Container {
+func (m *Gguf) BaseContainer() *dagger.Container {
 	return dag.Container().
 		From(llamacppImageRef)
 }
@@ -25,7 +25,7 @@ func (m *Gguf) BaseContainer() *Container {
 func (m *Gguf) ConvertToGGuf(
 
 	// the directory containing the source model.
-	source *Directory,
+	source *dagger.Directory,
 	// additional parameters to pass to the conversion script.
 	// +optional
 	parameters ...string) *dagger.File {
@@ -34,7 +34,7 @@ func (m *Gguf) ConvertToGGuf(
 	if len(parameters) > 0 {
 		execWord = append(execWord, parameters...)
 	}
-	execOptions := &ContainerWithExecOpts{
+	execOptions := &dagger.ContainerWithExecOpts{
 		SkipEntrypoint: true,
 	}
 	return m.BaseContainer().
@@ -46,7 +46,7 @@ func (m *Gguf) ConvertToGGuf(
 // Quantize applies quantization to a given model file.
 func (m *Gguf) Quantize(ctx context.Context,
 	// the source model file to be quantized.
-	source *File,
+	source *dagger.File,
 	// the quantization parameter to apply.
 	quantization string) *dagger.File {
 
@@ -56,7 +56,7 @@ func (m *Gguf) Quantize(ctx context.Context,
 	}
 
 	execWord := []string{"/app/llama-quantize", modelname, quantizedFileName, quantization}
-	execOptions := &ContainerWithExecOpts{
+	execOptions := &dagger.ContainerWithExecOpts{
 		SkipEntrypoint: true,
 	}
 	return m.BaseContainer().
