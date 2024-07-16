@@ -1,0 +1,21 @@
+manifestVersion: 1.0.0
+package:
+  name: qwen2
+  version: 2.0.0
+  description: >-
+   The instruction-tuned 0.5B Qwen2 large language model.
+  authors: ["Alibaba Cloud"]
+code:
+  - path: LICENSE
+    description: License file.
+  - path: README.md
+    description: Readme file.
+
+model:
+  name: qwen2-0_5b-instruct-fp16
+  path: qwen2-0_5b-instruct-fp16.gguf
+  description: >-
+   0.5B-instruct-fp16.
+  license: Apache 2.0
+  
+  

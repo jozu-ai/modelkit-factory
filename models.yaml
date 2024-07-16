@@ -137,7 +137,55 @@
   name: qwen2
   kitfile: ./kitfiles/qwen2/fp16.yml
   modelkit_tag: 0.5b-instruct-fp16
-  model_size: 1GB
+  model_size: 0.9GB
+
+- repo: Qwen/Qwen2-0.5B-Instruct-GGUF
+  name: qwen2
+  kitfile: ./kitfiles/qwen2/0.5b-instruct-q2_K.yml
+  modelkit_tag: 0.5b-instruct-q2_K
+  model_size: 0.3GB
+
+- repo: Qwen/Qwen2-0.5B-Instruct-GGUF
+  name: qwen2
+  kitfile: ./kitfiles/qwen2/0.5b-instruct-q3_K_M.yml
+  modelkit_tag: 0.5b-instruct-q3_K_M
+  model_size: 0.3GB
+
+- repo: Qwen/Qwen2-0.5B-Instruct-GGUF
+  name: qwen2
+  kitfile: ./kitfiles/qwen2/0.5b-instruct-q4.yml
+  modelkit_tag: 0.5b-instruct-q4_0
+  model_size: 0.4GB
+
+- repo: Qwen/Qwen2-0.5B-Instruct-GGUF
+  name: qwen2
+  kitfile: ./kitfiles/qwen2/0.5b-instruct-q4_K_M.yml
+  modelkit_tag: 0.5b-instruct-q4_K_M
+  model_size: 0.4GB
+
+- repo: Qwen/Qwen2-0.5B-Instruct-GGUF
+  name: qwen2
+  kitfile: ./kitfiles/qwen2/0.5b-instruct-q5.yml
+  modelkit_tag: 0.5b-instruct-q5_0
+  model_size: 0.4GB
+
+- repo: Qwen/Qwen2-0.5B-Instruct-GGUF
+  name: qwen2
+  kitfile: ./kitfiles/qwen2/0.5b-instruct-q5_K_M.yml
+  modelkit_tag: 0.5b-instruct-q5_K_M
+  model_size: 0.4GB
+
+- repo: Qwen/Qwen2-0.5B-Instruct-GGUF
+  name: qwen2
+  kitfile: ./kitfiles/qwen2/0.5b-instruct-q6_K.yml
+  modelkit_tag: 0.5b-instruct-q6_K
+  model_size: 0.5GB
+
+- repo: Qwen/Qwen2-0.5B-Instruct-GGUF
+  name: qwen2
+  kitfile: ./kitfiles/qwen2/0.5b-instruct-q8.yml
+  modelkit_tag: 0.5b-instruct-q8_0
+  model_size: 0.5GB
 
 - repo: sentence-transformers/all-MiniLM-L6-v2
   name: all-minilm-l6-v2
