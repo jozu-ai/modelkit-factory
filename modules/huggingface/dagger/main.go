@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"dagger/huggingface/internal/dagger"
 )
 
 const (
@@ -12,8 +13,8 @@ const (
 
 type Huggingface struct{}
 
-func (m *Huggingface) baseContainer() *Container {
-	execOptions := &ContainerWithExecOpts{
+func (m *Huggingface) baseContainer() *dagger.Container {
+	execOptions := &dagger.ContainerWithExecOpts{
 		SkipEntrypoint: true,
 	}
 	return dag.Container().From(pythonImageRef).
@@ -23,12 +24,12 @@ func (m *Huggingface) baseContainer() *Container {
 }
 
 // Downloads a Huggingface repo and returns the Directory to the downloaded repo
-func (m *Huggingface) DownloadRepo(ctx context.Context, 
+func (m *Huggingface) DownloadRepo(ctx context.Context,
 	// the Huggingface repository to download.
-	hfrepo string, 
+	hfrepo string,
 	// the Huggingface secret token for authentication
-	secret *Secret) *Directory {
-	execOptions := &ContainerWithExecOpts{
+	secret *dagger.Secret) *dagger.Directory {
+	execOptions := &dagger.ContainerWithExecOpts{
 		SkipEntrypoint: true,
 	}
 	return m.baseContainer().
