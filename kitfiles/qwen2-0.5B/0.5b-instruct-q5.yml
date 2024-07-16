@@ -1,6 +1,6 @@
 manifestVersion: 1.0.0
 package:
-  name: qwen2
+  name: qwen2-0.5B
   version: 2.0.0
   description: >-
    The instruction-tuned 0.5B Qwen2 large language model.
@@ -12,9 +12,9 @@ code:
     description: Readme file.
 
 model:
-  name: qwen2-0_5b-instruct-q2_k
-  path: qwen2-0_5b-instruct-q2_k.gguf
+  name: qwen2-0_5b-instruct-q5_0
+  path: qwen2-0_5b-instruct-q5_0.gguf
   description: >-
-   0.5B-instruct-q2_k.
+   0.5B-instruct-q5_0.
   license: Apache 2.0
   
