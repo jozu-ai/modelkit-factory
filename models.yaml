@@ -48,22 +48,21 @@
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
-- repo: meta-llama/Llama-2-7b
-  name: llama2-7b
-  family: llama
+- repo: meta-llama/Meta-Llama-3-8B
+  name: llama3-8b
+  parameterSize: 8B
   variant: text
-  parameterSize: 7b
-  description: "Llama 2 7b text model"
-  kitfileTemplate: ./kitfiles/llama2.yml
+  description: "Llama 3 8B text model"
+  kitfileTemplate: ./kitfiles/llama3.yml
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
-- repo: meta-llama/Llama-2-7b-chat
-  name: llama2-7b
-  parameterSize: 7b
-  variant: chat
-  description: "Llama 2 7b chat model"
-  kitfileTemplate: ./kitfiles/llama2.yml
+- repo: meta-llama/Meta-Llama-3-8B-Instruct
+  name: llama3-8b
+  parameterSize: 8B
+  variant: instruct
+  description: "Llama 3 8B instruct model"
+  kitfileTemplate: ./kitfiles/llama3.yml
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
@@ -81,24 +80,6 @@
   parameterSize: 70B
   variant: instruct
   description: "Llama 3 70B instruct model"
-  kitfileTemplate: ./kitfiles/llama3.yml
-  fp_precision: f16
-  quantizations: ["q8_0", "q5_0", "q4_0"]
-
-- repo: meta-llama/Meta-Llama-3-8B
-  name: llama3-8b
-  parameterSize: 8B
-  variant: text
-  description: "Llama 3 8B text model"
-  kitfileTemplate: ./kitfiles/llama3.yml
-  fp_precision: f16
-  quantizations: ["q8_0", "q5_0", "q4_0"]
-
-- repo: meta-llama/Meta-Llama-3-8B-Instruct
-  name: llama3-8b
-  parameterSize: 8B
-  variant: instruct
-  description: "Llama 3 8B instruct model"
   kitfileTemplate: ./kitfiles/llama3.yml
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
