@@ -1,0 +1,26 @@
+manifestVersion: 1.0.0
+package:
+  name: mixtral-8x7b-v0.1
+  version: 0.1.0
+  description: >-
+   The Mixtral-8x7B Large Language Model (LLM) is a pretrained generative Sparse Mixture of Experts.
+  authors: ["Mistral.ai"]
+code:
+  - path: README.md
+    description: Readme file.
+  - path: config.json
+    description: Configuration file.
+  - path: generation_config.json
+    description: Generation configuration file.
+  - path: special_tokens_map.json
+    description: Mapping of special tokens.
+  - path: tokenizer.json
+    description: Tokenizer configuration.
+  - path: tokenizer_config.json
+    description: Detailed tokenizer configuration.
+model:
+  name: <model-name>
+  path: <model-path>
+  description: >-
+    <model-description>
+  license: Apache-2.0
