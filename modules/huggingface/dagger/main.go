@@ -34,3 +34,20 @@ func (m *Huggingface) DownloadRepo(ctx context.Context,
 		WithExec([]string{hfCliPath, "download", hfrepo, "--local-dir", localRepoDir, "--token", "$HF_TOKEN"}).
 		Directory(localRepoDir)
 }
+
+// Downloads a single file from Huggingface repo and returns the File
+func (m *Huggingface) DownloadFile(ctx context.Context,
+	// the Huggingface repository to download.
+	hfrepo string,
+	// The path of the file to download
+	path string, 
+	// the Huggingface secret token for authentication
+	secret *dagger.Secret) *dagger.File {
+	return m.baseContainer().
+		WithDirectory(localRepoDir, dag.Directory()).
+		WithWorkdir("/home/nonroot").
+		WithSecretVariable("HF_TOKEN", secret).
+		WithExec([]string{hfCliPath, "download", hfrepo, path, "--local-dir", localRepoDir, "--token", "$HF_TOKEN"}).
+		Directory(localRepoDir).
+		File(path)
+}
