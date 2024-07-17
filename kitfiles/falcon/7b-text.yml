@@ -1,0 +1,38 @@
+manifestVersion: 1.0.0
+package:
+  name: falcon-7b
+  version: 1.0.0
+  description: >-
+   Falcon-7B is a 7B parameters causal decoder-only model built by TII and trained 
+   on 1,500B tokens of RefinedWeb enhanced with curated corpora.
+  authors: ["TII"]
+code:
+  - path: README.md
+    description: Readme file.
+  - path: config.json
+    description: Configuration file.
+  - path: generation_config.json
+    description: Generation configuration file.
+  - path: pytorch_model.bin.index.json
+    description: PyTorch model parts index
+  - path: special_tokens_map.json
+    description: Mapping of special tokens.
+  - path: tokenizer.json
+    description: Tokenizer configuration.
+  - path: tokenizer_config.json
+    description: Detailed tokenizer configuration.
+  - path: configuration_falcon.py
+    description: Falcon configuration file.
+  - path: modeling_falcon.py
+    description: Falcon modeling
+model:
+  name: falcon-7b-text
+  path: pytorch_model-00001-of-00002.bin
+  framework: PyTorch-2.0
+  description: >-
+    Falcon-7B is a 7B parameters causal decoder-only model built by TII and trained 
+    on 1,500B tokens of RefinedWeb enhanced with curated corpora.
+  license: Apache-2.0
+  parts:
+    - path: pytorch_model-00002-of-00002.bin
+      type: pytorch-model-part

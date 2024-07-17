@@ -160,9 +160,9 @@
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
-- repo: mistralai/Mixtral-8x7B-Instruct-v0.1
-  name: mixtral-8x7b
-  parameterSize: 47B
+- repo: mistralai/Mixtral-8x22B-Instruct-v0.1
+  name: mixtral-8x22b
+  parameterSize: 141B
   variant: instruct
   description: "Mixtral 8x22B v.0.1 instruct model"
   kitfileTemplate: ./kitfiles/mixtral/8x22b-v0.1.yml
@@ -282,3 +282,27 @@
   kitfile: kitfiles/all-minilm-L6-v2/safetensor.yml
   modelkit_tag: safetensor
   model_size: 1GB
+
+- repo: tiiuae/falcon-7b
+  name: falcon-7b
+  kitfile: kitfiles/falcon/7b-text.yml
+  modelkit_tag: 7b-text
+  model_size: 15GB
+
+- repo: tiiuae/falcon-7b-instruct
+  name: falcon-7b
+  kitfile: kitfiles/falcon/7b-instruct.yml
+  modelkit_tag: 7b-instruct
+  model_size: 15GB
+
+- repo: tiiuae/falcon-40b
+  name: falcon-40b
+  kitfile: kitfiles/falcon/40b-text.yml
+  modelkit_tag: 40b-text
+  model_size: 90GB
+
+- repo: tiiuae/falcon-40b-instruct
+  name: falcon-40b
+  kitfile: kitfiles/falcon/40b-instruct.yml
+  modelkit_tag: 40b-instruct
+  model_size: 90GB

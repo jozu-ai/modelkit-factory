@@ -1,0 +1,40 @@
+manifestVersion: 1.0.0
+package:
+  name: falcon-7b
+  version: 1.0.0
+  description: >-
+   Falcon-7B-Instruct is a 7B parameters causal decoder-only model built by 
+   TII based on Falcon-7B and finetuned on a mixture of chat/instruct datasets.
+  authors: ["TII"]
+code:
+  - path: README.md
+    description: Readme file.
+  - path: config.json
+    description: Configuration file.
+  - path: generation_config.json
+    description: Generation configuration file.
+  - path: pytorch_model.bin.index.json
+    description: PyTorch model parts index
+  - path: special_tokens_map.json
+    description: Mapping of special tokens.
+  - path: tokenizer.json
+    description: Tokenizer configuration.
+  - path: tokenizer_config.json
+    description: Detailed tokenizer configuration.
+  - path: configuration_falcon.py
+    description: Falcon configuration file.
+  - path: modeling_falcon.py
+    description: Falcon modeling
+  - path: handler.py
+    description: Falcom model handler
+model:
+  name: falcon-7b-instruct
+  path: pytorch_model-00001-of-00002.bin
+  framework: PyTorch-2.0
+  description: >-
+   Falcon-7B-Instruct is a 7B parameters causal decoder-only model built by 
+   TII based on Falcon-7B and finetuned on a mixture of chat/instruct datasets.
+  license: Apache-2.0
+  parts:
+    - path: pytorch_model-00002-of-00002.bin
+      type: pytorch-model-part
