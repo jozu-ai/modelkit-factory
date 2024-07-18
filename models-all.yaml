@@ -57,6 +57,16 @@
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
+# MMLU Dataset
+- repo: cais/mmlu
+  name: mmlu-dataset
+  kitfile: kitfiles/mmlu-dataset/mmlu.yml
+  modelkit_tag: latest
+  model_size: 0.2GB
+
+# Dolly Dataset
+- repo: databricks/databricks-dolly-15k
+
 ## moved to models.yaml already
 
 - repo: google/gemma-7b
