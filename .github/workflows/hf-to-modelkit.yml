@@ -75,27 +75,6 @@ jobs:
         run: |
           tree ./model
           cat ${{inputs.kitfile}} | kit pack ./model -f - -t jozu.ml/jozu/${{inputs.model_name}}:${{inputs.modelkit_tag}} -v
-
-      # Temporary workaround to allow pushing blobs to R2 directly
-      - name: Setup Rclone
-        uses: AnimMouse/setup-rclone@1a535c480a89e3990d2a0015ea21f6fa3eb1fdc4 ## v1.10.1
-        with:
-          rclone_config: ${{ secrets.RCLONE_CONFIG }}
-      - name: copy blobs up to R2 storage
-        run: |
-          # Copy all blobs in storage to r2 bucket
-          for d in $(find "$KITOPS_HOME/storage" -type d -name 'sha256'); do
-            for f in $(find $d -type f); do
-              FILENAME="$(basename $f)"
-              TARGET="${TARGET_R2_BUCKET_NAME}/sha256:$FILENAME"
-              echo "[INFO ] Copying $f to r2_storage:$TARGET"
-              echo "[INFO ] Command: rclone copyto "$f" "r2_storage:$TARGET" -v"
-              rclone copyto "$f" "r2_storage:$TARGET" -v
-              echo "[INFO ] Done copying $f to r2_storage:$TARGET"
-              echo ""
-            done
-          done
-      # End temporary workaround
       - name: push modelkit
         run: kit push jozu.ml/jozu/${{inputs.model_name}}:${{inputs.modelkit_tag}} -v --log-level=trace --progress=none
       - name: Install jq tool
