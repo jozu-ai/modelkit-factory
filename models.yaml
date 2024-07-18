@@ -41,16 +41,6 @@
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
-- repo: google/gemma-2b-it
-  name: gemma-2b
-  family: gemma
-  variant: instruct
-  parameterSize: 2b
-  description: "2B instruct version of the Gemma model."
-  kitfileTemplate: ./kitfiles/gemma/2b-instruct-fp16.yml
-  fp_precision: f16
-  quantizations: ["q8_0", "q5_0", "q4_0"]
-
 - repo: google/gemma-7b
   name: gemma-7b
   family: gemma
@@ -68,7 +58,7 @@
   parameterSize: 7b
   description: "7B instruct version of the Gemma model."
   kitfileTemplate: ./kitfiles/gemma/7b-instruct-fp16.yml
-  fp_precision: fp16
+  fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
 # Llama-3 models
