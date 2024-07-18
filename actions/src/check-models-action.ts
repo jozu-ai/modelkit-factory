@@ -26,7 +26,7 @@ export async function run(): Promise<void> {
 
     for (const model of models) {
         const repo = getPublicJozuRepoName(model);
-        const repoExits = !await registryExists(repo);
+        const repoExits = await registryExists(repo);
         if (isModelWithProcessing(model) === true) {
             if (!repoExits) {
                 await startConversionFlow(model);

@@ -26201,7 +26201,7 @@ async function run() {
     const models = yaml.parse(content);
     for (const model of models) {
         const repo = (0, utils_1.getPublicJozuRepoName)(model);
-        const repoExits = !await registryExists(repo);
+        const repoExits = await registryExists(repo);
         if ((0, types_1.isModelWithProcessing)(model) === true) {
             if (!repoExits) {
                 await (0, workflow_runners_1.startConversionFlow)(model);
