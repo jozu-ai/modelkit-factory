@@ -1,6 +1,7 @@
 manifestVersion: 1.0.0
 package:
   name:  mistral
+  version: 0.3.0
   description: >-
     A Mistral-7B-v0.2 LLM with extended vocabulary.
   authors: ["Mistral.ai"]
@@ -20,8 +21,8 @@ code:
   - path: tokenizer_config.json
     description: Detailed tokenizer configuration.
 model:
-  name: Mistral-7B-v0.3
-  path: consolidated.safetensors
+  name: <model-name>
+  path: <model-path>
   description: >-
-     Model weights saved in SafeTensors format.
-  license: Apache v2.0
+    <model-description>
+  license: Apache-2.0

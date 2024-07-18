@@ -1,9 +1,11 @@
+# Snowflake-arctic-embed-l
 - repo: Snowflake/snowflake-arctic-embed-l
   name: snowflake-arctic-embed
   kitfile: kitfiles/snowflake-arctic-embed/l-onnx.yml
   modelkit_tag: l-onnx
   model_size: 1GB
 
+# bloom models
 - repo: bigscience/bloom-1b1
   name: bloom-1b1
   kitfile: kitfiles/bloom/1b1.yml
@@ -28,6 +30,7 @@
   modelkit_tag: safetensor
   model_size: 1.1GB
 
+# gemma models
 - repo: google/gemma-2b
   name: gemma-2b
   family: gemma
@@ -68,6 +71,7 @@
   fp_precision: fp16
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
+# Llama-3 models
 - repo: meta-llama/Meta-Llama-3-8B
   name: llama3-8b
   parameterSize: 8B
@@ -104,6 +108,7 @@
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
+# phi3 models
 - repo: microsoft/Phi-3-mini-4k-instruct-gguf
   name: phi3
   kitfile: ./kitfiles/phi3/fp16.yml
@@ -116,6 +121,7 @@
   modelkit_tag: 3.8b-mini-instruct-4k-q4_K_M
   model_size: 2.4GB
 
+# Mistral models
 - repo: mistralai/Mistral-7B-v0.1
   name: mistral-7b
   parameterSize: 7B
@@ -134,6 +140,25 @@
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
+- repo: mistralai/Mistral-7B-v0.3
+  name: mistral-7b
+  parameterSize: 7B
+  variant: text
+  description: "Mistral 7B v.0.3 text model"
+  kitfileTemplate: ./kitfiles/mistral/7b-v0.3.yml
+  fp_precision: f16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+
+- repo: mistralai/Mistral-7B-Instruct-v0.3
+  name: mistral-7b
+  parameterSize: 7B
+  variant: instruct
+  description: "Mistral 7B v.0.3 instruct model"
+  kitfileTemplate: ./kitfiles/mistral/7b-v0.3.yml
+  fp_precision: f16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+
+# Mixtral models
 - repo: mistralai/Mixtral-8x7B-v0.1
   name: mixtral-8x7b
   parameterSize: 47B
@@ -170,6 +195,7 @@
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
+# Qwen2 models
 - repo: Qwen/Qwen2-0.5B-Instruct-GGUF
   name: qwen2-0.5b
   kitfile: ./kitfiles/qwen2-0.5B/0.5b-instruct-fp16.yml
@@ -278,12 +304,14 @@
   modelkit_tag: 7b-instruct-q8_0
   model_size: 50GB
 
+# sentence-transformers model
 - repo: sentence-transformers/all-MiniLM-L6-v2
   name: all-minilm-l6-v2
   kitfile: kitfiles/all-minilm-L6-v2/safetensor.yml
   modelkit_tag: safetensor
   model_size: 1GB
 
+# falcon models
 - repo: tiiuae/falcon-7b
   name: falcon-7b
   kitfile: kitfiles/falcon/7b-text.yml
