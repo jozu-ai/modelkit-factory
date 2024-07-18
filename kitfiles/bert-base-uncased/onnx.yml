@@ -1,0 +1,17 @@
+manifestVersion: 1.0.0
+package:
+  name: bert-base-uncased
+  description: >-
+    BERT is a transformers model pretrained on a large corpus of English data in a self-supervised fashion.
+  authors: ["Google"]
+docs:
+  - path: README.md
+    description: Readme file.
+  - path: LICENSE
+    description: License file 
+model:
+  name: bert-base-uncased
+  path: model.onnx
+  description: >-
+    bert-base-uncased model weights saved in onnx format.
+  license: Apache 2.0

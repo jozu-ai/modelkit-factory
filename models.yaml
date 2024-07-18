@@ -1,3 +1,11 @@
+
+# google-bert/bert-base-uncased
+- repo: google-bert/bert-base-uncased
+  name: bert-base-uncased
+  kitfile: kitfiles/bert-base-uncased/onnx.yml
+  modelkit_tag: onnx
+  model_size: 3GB
+
 # Snowflake-arctic-embed-l
 - repo: Snowflake/snowflake-arctic-embed-l
   name: snowflake-arctic-embed
@@ -41,16 +49,6 @@
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
-- repo: google/gemma-2b-it
-  name: gemma-2b
-  family: gemma
-  variant: instruct
-  parameterSize: 2b
-  description: "2B instruct version of the Gemma model."
-  kitfileTemplate: ./kitfiles/gemma/2b-instruct-fp16.yml
-  fp_precision: f16
-  quantizations: ["q8_0", "q5_0", "q4_0"]
-
 - repo: google/gemma-7b
   name: gemma-7b
   family: gemma
@@ -59,16 +57,6 @@
   description: "7B base version of the Gemma model."
   kitfileTemplate: ./kitfiles/gemma/7b-text-fp16.yml
   fp_precision: f16
-  quantizations: ["q8_0", "q5_0", "q4_0"]
-
-- repo: google/gemma-7b-it
-  name: gemma-7b
-  family: gemma
-  variant: instruct
-  parameterSize: 7b
-  description: "7B instruct version of the Gemma model."
-  kitfileTemplate: ./kitfiles/gemma/7b-instruct-fp16.yml
-  fp_precision: fp16
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
 # Llama-3 models
@@ -174,24 +162,6 @@
   variant: instruct
   description: "Mixtral 8x7B v.0.1 instruct model"
   kitfileTemplate: ./kitfiles/mixtral/8x7b-v0.1.yml
-  fp_precision: f16
-  quantizations: ["q8_0", "q5_0", "q4_0"]
-
-- repo: mistralai/Mixtral-8x22B-v0.1
-  name: mixtral-8x22b
-  parameterSize: 141B
-  variant: text
-  description: "Mixtral 8x22B v.0.1 text model"
-  kitfileTemplate: ./kitfiles/mixtral/8x22b-v0.1.yml
-  fp_precision: f16
-  quantizations: ["q8_0", "q5_0", "q4_0"]
-
-- repo: mistralai/Mixtral-8x22B-Instruct-v0.1
-  name: mixtral-8x22b
-  parameterSize: 141B
-  variant: instruct
-  description: "Mixtral 8x22B v.0.1 instruct model"
-  kitfileTemplate: ./kitfiles/mixtral/8x22b-v0.1.yml
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
@@ -316,22 +286,23 @@
   name: falcon-7b
   kitfile: kitfiles/falcon/7b-text.yml
   modelkit_tag: 7b-text
-  model_size: 15GB
+  model_size: 50GB
 
 - repo: tiiuae/falcon-7b-instruct
   name: falcon-7b
   kitfile: kitfiles/falcon/7b-instruct.yml
   modelkit_tag: 7b-instruct
-  model_size: 15GB
+  model_size: 50GB
 
 - repo: tiiuae/falcon-40b
   name: falcon-40b
   kitfile: kitfiles/falcon/40b-text.yml
   modelkit_tag: 40b-text
-  model_size: 90GB
+  model_size: 100GB
 
 - repo: tiiuae/falcon-40b-instruct
   name: falcon-40b
   kitfile: kitfiles/falcon/40b-instruct.yml
   modelkit_tag: 40b-instruct
-  model_size: 90GB
+  model_size: 100GB
+

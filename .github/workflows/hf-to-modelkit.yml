@@ -50,14 +50,15 @@ jobs:
       - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
+
+      - name: download model repo
+        uses: dagger/dagger-for-github@747585b2454aebd42233a2c1d5102ca88abb2223 # v6.0.0
         with:
-          python-version: "3.10"
-      - name: Install dependencies
-        run: |
-          ./scripts/check-hf-cli
-      - name: download model
-        run: ./scripts/hf-clone ${{ inputs.model_repo }} ./model
+          module: github.com/jozu-ai/modelkit-factory/modules/huggingface
+          version: latest
+          verb: call
+          args: download-repo --hfrepo=${{ inputs.model_repo }} --secret=env:HF_TOKEN export --path=./model
+
       - name: check diskspace after download
         run: |
           echo "Disk space after base model downloads"
