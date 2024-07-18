@@ -317,10 +317,3 @@
   kitfile: kitfiles/falcon/40b-instruct.yml
   modelkit_tag: 40b-instruct
   model_size: 100GB
-
-# MMLU Dataset
-- repo: cais/mmlu
-  name: mmlu-dataset
-  kitfile: kitfiles/mmlu-dataset/mmlu.yml
-  modelkit_tag: latest
-  model_size: 0.2GB
