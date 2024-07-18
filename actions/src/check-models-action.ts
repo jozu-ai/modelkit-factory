@@ -27,22 +27,23 @@ export async function run(): Promise<void> {
     for (const model of models) {
         const repo = getPublicJozuRepoName(model);
         if (isModelWithProcessing(model) === true) {
-            let quantizations: string[] = [];
-            for (const q of model.quantizations) {
-                const quantizedModel = { ...model };
-                quantizedModel.fp_precision = q;
-                const quantizedRepo = getPublicJozuRepoName(quantizedModel);
-                const exists = await registryExists(quantizedRepo);
-                if (!exists) {
-                    quantizations.push(q);
-                }
-            }
-            model.quantizations = quantizations;
             if (!await registryExists(repo)) {
                 await startConversionFlow(model);
-            }
-            if (model.quantizations.length > 0) {
-                await startQuantizationFlow(model);
+            } else {
+                let quantizations: string[] = [];
+                for (const q of model.quantizations) {
+                    const quantizedModel = { ...model };
+                    quantizedModel.fp_precision = q;
+                    const quantizedRepo = getPublicJozuRepoName(quantizedModel);
+                    const exists = await registryExists(quantizedRepo);
+                    if (!exists) {
+                        quantizations.push(q);
+                    }
+                }
+                model.quantizations = quantizations;
+                if (model.quantizations.length > 0) {
+                    await startQuantizationFlow(model);
+                }
             }
         }
         else {
