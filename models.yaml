@@ -157,24 +157,6 @@
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
-- repo: mistralai/Mixtral-8x22B-v0.1
-  name: mixtral-8x22b
-  parameterSize: 141B
-  variant: text
-  description: "Mixtral 8x22B v.0.1 text model"
-  kitfileTemplate: ./kitfiles/mixtral/8x22b-v0.1.yml
-  fp_precision: f16
-  quantizations: ["q8_0", "q5_0", "q4_0"]
-
-- repo: mistralai/Mixtral-8x22B-Instruct-v0.1
-  name: mixtral-8x22b
-  parameterSize: 141B
-  variant: instruct
-  description: "Mixtral 8x22B v.0.1 instruct model"
-  kitfileTemplate: ./kitfiles/mixtral/8x22b-v0.1.yml
-  fp_precision: f16
-  quantizations: ["q8_0", "q5_0", "q4_0"]
-
 # Qwen2 models
 - repo: Qwen/Qwen2-0.5B-Instruct-GGUF
   name: qwen2-0.5b
@@ -296,22 +278,29 @@
   name: falcon-7b
   kitfile: kitfiles/falcon/7b-text.yml
   modelkit_tag: 7b-text
-  model_size: 15GB
+  model_size: 50GB
 
 - repo: tiiuae/falcon-7b-instruct
   name: falcon-7b
   kitfile: kitfiles/falcon/7b-instruct.yml
   modelkit_tag: 7b-instruct
-  model_size: 15GB
+  model_size: 50GB
 
 - repo: tiiuae/falcon-40b
   name: falcon-40b
   kitfile: kitfiles/falcon/40b-text.yml
   modelkit_tag: 40b-text
-  model_size: 90GB
+  model_size: 100GB
 
 - repo: tiiuae/falcon-40b-instruct
   name: falcon-40b
   kitfile: kitfiles/falcon/40b-instruct.yml
   modelkit_tag: 40b-instruct
-  model_size: 90GB
+  model_size: 100GB
+
+# MMLU Dataset
+- repo: cais/mmlu
+  name: mmlu-dataset
+  kitfile: kitfiles/mmlu-dataset/mmlu.yml
+  modelkit_tag: latest
+  model_size: 0.2GB
