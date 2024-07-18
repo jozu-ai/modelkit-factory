@@ -39,6 +39,23 @@
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
+- repo: mistralai/Mixtral-8x22B-v0.1
+  name: mixtral-8x22b
+  parameterSize: 141B
+  variant: text
+  description: "Mixtral 8x22B v.0.1 text model"
+  kitfileTemplate: ./kitfiles/mixtral/8x22b-v0.1.yml
+  fp_precision: f16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+
+- repo: mistralai/Mixtral-8x22B-Instruct-v0.1
+  name: mixtral-8x22b
+  parameterSize: 141B
+  variant: instruct
+  description: "Mixtral 8x22B v.0.1 instruct model"
+  kitfileTemplate: ./kitfiles/mixtral/8x22b-v0.1.yml
+  fp_precision: f16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
 
 ## moved to models.yaml already
 
@@ -154,59 +171,3 @@
   fp_precision: f16
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
-  ##### This section added by Brett to prevent simultaneous
-  ##### downloads of multiple GGUF files hosted in the
-  ##### same Hugging Face Repo. 
-- repo: Qwen/Qwen2-7B-Instruct-GGUF
-  name: qwen2-7b
-  kitfile: ./kitfiles/qwen2-7B/7b-instruct-fp16.yml
-  modelkit_tag: 7b-instruct-fp16
-  model_size: 15.2GB
-  
-- repo: Qwen/Qwen2-7B-Instruct-GGUF
-  name: qwen2-7b
-  kitfile: ./kitfiles/qwen2-7B/7b-instruct-q2_K.yml
-  modelkit_tag: 7b-instruct-q2_K
-  model_size: 3GB
-
-- repo: Qwen/Qwen2-7B-Instruct-GGUF
-  name: qwen2-7b
-  kitfile: ./kitfiles/qwen2-7B/7b-instruct-q3_K_M.yml
-  modelkit_tag: 7b-instruct-q3_K_M
-  model_size: 3.8GB
-
-- repo: Qwen/Qwen2-7B-Instruct-GGUF
-  name: qwen2-7b
-  kitfile: ./kitfiles/qwen2-7B/7b-instruct-q4.yml
-  modelkit_tag: 7b-instruct-q4_0
-  model_size: 4.4GB
-
-- repo: Qwen/Qwen2-7B-Instruct-GGUF
-  name: qwen2-7b
-  kitfile: ./kitfiles/qwen2-7B/7b-instruct-q4_K_M.yml
-  modelkit_tag: 7b-instruct-q4_K_M
-  model_size: 4.7GB
-
-- repo: Qwen/Qwen2-7B-Instruct-GGUF
-  name: qwen2-7b
-  kitfile: ./kitfiles/qwen2-7B/7b-instruct-q5.yml
-  modelkit_tag: 7b-instruct-q5_0
-  model_size: 5.3GB
-
-- repo: Qwen/Qwen2-7B-Instruct-GGUF
-  name: qwen2-7b
-  kitfile: ./kitfiles/qwen2-7B/7b-instruct-q5_K_M.yml
-  modelkit_tag: 7b-instruct-q5_K_M
-  model_size: 5.4GB
-
-- repo: Qwen/Qwen2-7B-Instruct-GGUF
-  name: qwen2-7b
-  kitfile: ./kitfiles/qwen2-7B/7b-instruct-q6_K.yml
-  modelkit_tag: 7b-instruct-q6_K
-  model_size: 6.3GB
-
-- repo: Qwen/Qwen2-7B-Instruct-GGUF
-  name: qwen2-7b
-  kitfile: ./kitfiles/qwen2-7B/7b-instruct-q8.yml
-  modelkit_tag: 7b-instruct-q8_0
-  model_size: 8.1GB
