@@ -23,10 +23,10 @@ code:
     description: Detailed tokenizer configuration.
   - path: configuration_falcon.py
     description: Falcon configuration file.
-  - path: modeling_falcon.py
-    description: Falcon modeling
   - path: handler.py
     description: Falcom model handler
+  - path: modeling_falcon.py
+    description: Falcon modeling
 model:
   name: falcon-7b-instruct
   path: pytorch_model-00001-of-00002.bin
