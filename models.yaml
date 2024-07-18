@@ -316,25 +316,25 @@
   name: falcon-7b
   kitfile: kitfiles/falcon/7b-text.yml
   modelkit_tag: 7b-text
-  model_size: 15GB
+  model_size: 50GB
 
 - repo: tiiuae/falcon-7b-instruct
   name: falcon-7b
   kitfile: kitfiles/falcon/7b-instruct.yml
   modelkit_tag: 7b-instruct
-  model_size: 15GB
+  model_size: 50GB
 
 - repo: tiiuae/falcon-40b
   name: falcon-40b
   kitfile: kitfiles/falcon/40b-text.yml
   modelkit_tag: 40b-text
-  model_size: 90GB
+  model_size: 100GB
 
 - repo: tiiuae/falcon-40b-instruct
   name: falcon-40b
   kitfile: kitfiles/falcon/40b-instruct.yml
   modelkit_tag: 40b-instruct
-  model_size: 90GB
+  model_size: 100GB
 
 # MMLU Dataset
 - repo: cais/mmlu
