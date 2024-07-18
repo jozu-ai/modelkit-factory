@@ -1,3 +1,11 @@
+
+# google-bert/bert-base-uncased
+- repo: google-bert/bert-base-uncased
+  name: bert-base-uncased
+  kitfile: kitfiles/bert-base-uncased/onnx.yml
+  modelkit_tag: onnx
+
+
 # Snowflake-arctic-embed-l
 - repo: Snowflake/snowflake-arctic-embed-l
   name: snowflake-arctic-embed
