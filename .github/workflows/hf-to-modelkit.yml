@@ -57,7 +57,7 @@ jobs:
           module: github.com/jozu-ai/modelkit-factory/modules/huggingface
           version: latest
           verb: call
-          args: download-repo --hfrepo=${{ inputs.model_repo }} --secret:env:HF_TOKEN export --path=./model
+          args: download-repo --hfrepo=${{ inputs.model_repo }} --secret=env:HF_TOKEN export --path=./model
 
       - name: check diskspace after download
         run: |
