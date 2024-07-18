@@ -26201,27 +26201,30 @@ async function run() {
     const models = yaml.parse(content);
     for (const model of models) {
         const repo = (0, utils_1.getPublicJozuRepoName)(model);
+        const repoExits = !await registryExists(repo);
         if ((0, types_1.isModelWithProcessing)(model) === true) {
-            let quantizations = [];
-            for (const q of model.quantizations) {
-                const quantizedModel = { ...model };
-                quantizedModel.fp_precision = q;
-                const quantizedRepo = (0, utils_1.getPublicJozuRepoName)(quantizedModel);
-                const exists = await registryExists(quantizedRepo);
-                if (!exists) {
-                    quantizations.push(q);
-                }
-            }
-            model.quantizations = quantizations;
-            if (!await registryExists(repo)) {
+            if (!repoExits) {
                 await (0, workflow_runners_1.startConversionFlow)(model);
             }
-            if (model.quantizations.length > 0) {
-                await (0, workflow_runners_1.startQuantizationFlow)(model);
+            if (repoExits) {
+                let quantizations = [];
+                for (const q of model.quantizations) {
+                    const quantizedModel = { ...model };
+                    quantizedModel.fp_precision = q;
+                    const quantizedRepo = (0, utils_1.getPublicJozuRepoName)(quantizedModel);
+                    const exists = await registryExists(quantizedRepo);
+                    if (!exists) {
+                        quantizations.push(q);
+                    }
+                }
+                model.quantizations = quantizations;
+                if (model.quantizations.length > 0) {
+                    await (0, workflow_runners_1.startQuantizationFlow)(model);
+                }
             }
         }
         else {
-            if (!await registryExists(repo)) {
+            if (!repoExits) {
                 await (0, workflow_runners_1.startPackFlow)(model);
             }
         }
