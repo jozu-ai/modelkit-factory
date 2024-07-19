@@ -162,12 +162,25 @@ func (m *Kit) WithAuth(username string, password *dagger.Secret) *Kit {
 	return m
 }
 
-func (m *Kit) Pack(ctx context.Context, directory *dagger.Directory, reference string) (*Kit, error) {
+func (m *Kit) Pack(ctx context.Context, 
+	// directory to pack
+	directory *dagger.Directory, 
+	// tag reference
+	reference string,
+	// the kitfile
+	// +optional
+	kitfile *dagger.File ) (*Kit, error) {
 	cmd := []string{kitCommand, "pack", "/mnt", "-t", reference}
-	_, err := m.baseContainer().
-		WithMountedDirectory("/mnt", directory).
-		WithWorkdir("/mnt").
-		WithExec(cmd).Stdout(ctx)
+	c := m.baseContainer().
+	WithMountedDirectory("/mnt", directory).
+	WithWorkdir("/mnt")
+	
+	if kitfile != nil {
+		c = c.WithFile("kitfile.yml", kitfile)
+		cmd = append(cmd, "-f", "kitfile.yml")
+	}
+	_, err := c.WithExec(cmd).
+		Stdout(ctx)
 	if err != nil {
 		return nil, err
 	}

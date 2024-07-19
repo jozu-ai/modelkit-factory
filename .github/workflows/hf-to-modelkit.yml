@@ -36,7 +36,7 @@ jobs:
       HF_TOKEN: ${{ secrets.HUGGINGFACE_TOKEN }}
       HF_HUB_ENABLE_HF_TRANSFER: 1
       KITOPS_HOME: "/home/runner/work/.kitops-build"
-      TARGET_R2_BUCKET_NAME: "prod-blobs"
+      KIT_TOKEN: "${{secrets.KIT_PASSWORD}}"
     steps:
       - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
         with:
@@ -64,20 +64,14 @@ jobs:
           echo "Disk space after base model downloads"
           df -h
 
-      - uses: jozu-ai/gh-kit-setup@1960d89a6396444d03ad93abc1a74a4cf14baccd # v1.0.0
-        name: install kit CLI
-      - name: login to kit
-        run: kit login jozu.ml --username "${{secrets.KIT_USER}}" --password "${{secrets.KIT_PASSWORD}}"
-      - name: check diskspace before pack
-        run: |
-          echo "Disk space before packing model"
-          df -h
-      - name: pack modelkit
-        run: |
-          tree ./model
-          cat ${{inputs.kitfile}} | kit pack ./model -f - -t jozu.ml/jozu/${{inputs.model_name}}:${{inputs.modelkit_tag}} -v
-      - name: push modelkit
-        run: kit push jozu.ml/jozu/${{inputs.model_name}}:${{inputs.modelkit_tag}} -v --log-level=trace --progress=none
+      - name: package and push ModelKit
+        uses: dagger/dagger-for-github@747585b2454aebd42233a2c1d5102ca88abb2223 # v6.0.0
+        with:
+          module: github.com/jozu-ai/modelkit-factory/modules/kit
+          version: latest
+          verb: call
+          args: --registry=jozu.ml with-auth --username="${{secrets.KIT_USER}}" --password=env:KIT_TOKEN pack --directory=./model --reference=jozu.ml/jozu/${{inputs.model_name}}:${{inputs.modelkit_tag}} --kitfile=${{inputs.kitfile}} push --reference=jozu.ml/jozu/${{inputs.model_name}}:${{inputs.modelkit_tag}} 
+
       - name: Install jq tool
         run: |
           sudo apt-get update
