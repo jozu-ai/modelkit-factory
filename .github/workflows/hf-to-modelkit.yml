@@ -64,13 +64,13 @@ jobs:
           echo "Disk space after base model downloads"
           df -h
 
-      - name: download model repo
+      - name: package and push ModelKit
         uses: dagger/dagger-for-github@747585b2454aebd42233a2c1d5102ca88abb2223 # v6.0.0
         with:
           module: github.com/jozu-ai/modelkit-factory/modules/kit
           version: latest
           verb: call
-          args: with-auth --username="${{secrets.KIT_USER}}" --password=env:KIT_TOKEN pack --directory=./model --reference=jozu.ml/jozu/${{inputs.model_name}}:${{inputs.modelkit_tag}} push --reference=jozu.ml/jozu/${{inputs.model_name}}:${{inputs.modelkit_tag}} 
+          args: --registry=jozu.ml with-auth --username="${{secrets.KIT_USER}}" --password=env:KIT_TOKEN pack --directory=./model --reference=jozu.ml/jozu/${{inputs.model_name}}:${{inputs.modelkit_tag}} push --reference=jozu.ml/jozu/${{inputs.model_name}}:${{inputs.modelkit_tag}} 
 
       - name: Install jq tool
         run: |
