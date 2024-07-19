@@ -5,30 +5,24 @@ package:
     This is a sentence-transformers model: It maps sentences & paragraphs to a 384 dimensional
     dense vector space and can be used for tasks like clustering or semantic search.
   authors: ["Sentence Transformers"]
-code:
+docs:
   - path: README.md
     description: Readme file.
-  - path: config.json
-    description: Configuration file.
-  - path: config_sentence_transformers.json
-    description: Configuration file for sentence transformers.
-  - path: modules.json
-    description: Modules configuration file.
-  - path: sentence_bert_config.json
-    description: Configuration file for Sentence-BERT model.
-  - path: special_tokens_map.json
-    description: Mapping of special tokens.
-  - path: tokenizer.json
-    description: Tokenizer configuration.
-  - path: tokenizer_config.json
-    description: Detailed tokenizer configuration.
-  - path: vocab.txt
-    description: Vocabulary file.
-  - path: 1_Pooling/config.json
-    description: Configuration file for pooling layer.
 model:
   name: all-miniLM-L6-V2
   path: model.safetensors
+  parts:
+  - path: config.json
+  - path: config_sentence_transformers.json
+  - path: modules.json
+  - path: sentence_bert_config.json
+  - path: special_tokens_map.json
+  - path: tokenizer.json
+  - path: tokenizer_config.json
+  - path: vocab.txt
+  - path: 1_Pooling/config.json
+    description: Configuration file for pooling layer.
+    
   description: >-
      Model weights saved in SafeTensors format.
   license: Apache 2.0
