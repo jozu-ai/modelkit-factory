@@ -1,24 +1,26 @@
 manifestVersion: 1.0.0
 package:
-  name: ast-finetuned-audioset-10-10
-  version: 0.4593.0
+  name: ast-finetuned-audioset-10-10-0.4593
+  version: 1.0.0
   description: >-
    Audio Spectrogram Transformer (AST) model fine-tuned on AudioSet.
+   The Audio Spectrogram Transformer is equivalent to ViT, but 
+   applied on audio. Audio is first turned into an image (as a 
+   spectrogram), after which a Vision Transformer is applied. 
+   The model gets state-of-the-art results on several audio 
+   classification benchmarks.
   authors: ["MIT"]
-code:
+docs:
   - path: README.md
     description: Readme file.
-  - path: config.json
-    description: Configuration file.
-  - path: preprocessor_config.json
-    description: Preprocessor configuration file.
 model:
   name: model.safetensors
   path: model.safetensors
+  parts:
+  - path: config.json
+  - path: preprocessor_config.json
+  - path: pytorch_model.bin
+  
   description: >-
-    The Audio Spectrogram Transformer is equivalent to ViT, but 
-    applied on audio. Audio is first turned into an image (as a 
-    spectrogram), after which a Vision Transformer is applied. 
-    The model gets state-of-the-art results on several audio 
-    classification benchmarks.
-  license: BSD-3-clause
+    ast-finetuned-audioset model weights saved in safetensor format.
+  license: BSD-3 clause
