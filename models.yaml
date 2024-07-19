@@ -1,4 +1,12 @@
 
+# Audio Spectrogram Transformer (fined-tuned on AudioSet)
+- repo: MIT/ast-finetuned-audioset-10-10-0.4593
+  name: ast-finetuned-audioset-10-10-0.4593
+  kitfile: kitfiles/ast-finetuned-audioset/safetensor.yml
+  modelkit_tag: safetensors
+  model_size: 1.0GB
+
+
 # google-bert/bert-base-uncased
 - repo: google-bert/bert-base-uncased
   name: bert-base-uncased
@@ -311,11 +319,3 @@
   kitfile: kitfiles/falcon/40b-instruct.yml
   modelkit_tag: 40b-instruct
   model_size: 100GB
-
-# Audio Spectrogram Transformer (fined-tuned on AudioSet)
-- repo: MIT/ast-finetuned-audioset-10-10-0.4593
-  name: ast-finetuned-audioset
-  kitfile: kitfiles/ast-finetuned-audioset/safetensor.yml
-  modelkit_tag: 10-10-0.4593
-  model_size: 1.0GB
-
