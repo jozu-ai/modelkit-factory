@@ -70,7 +70,7 @@ jobs:
           module: github.com/jozu-ai/modelkit-factory/modules/kit
           version: latest
           verb: call
-          args: --registry=jozu.ml with-auth --username="${{secrets.KIT_USER}}" --password=env:KIT_TOKEN pack --directory=./model --reference=jozu.ml/jozu/${{inputs.model_name}}:${{inputs.modelkit_tag}} push --reference=jozu.ml/jozu/${{inputs.model_name}}:${{inputs.modelkit_tag}} 
+          args: --registry=jozu.ml with-auth --username="${{secrets.KIT_USER}}" --password=env:KIT_TOKEN pack --directory=./model --reference=jozu.ml/jozu/${{inputs.model_name}}:${{inputs.modelkit_tag}} --kitfile=${{inputs.kitfile}} push --reference=jozu.ml/jozu/${{inputs.model_name}}:${{inputs.modelkit_tag}} 
 
       - name: Install jq tool
         run: |
