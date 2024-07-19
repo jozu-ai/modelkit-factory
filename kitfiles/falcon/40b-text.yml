@@ -6,47 +6,31 @@ package:
    Falcon-40B is a 40B parameters causal decoder-only model built by 
    TII and trained on 1,000B tokens of RefinedWeb enhanced with curated corpora.
   authors: ["TII"]
-code:
+docs:
   - path: README.md
     description: Readme file.
-  - path: config.json
-    description: Configuration file.
-  - path: generation_config.json
-    description: Generation configuration file.
-  - path: pytorch_model.bin.index.json
-    description: PyTorch model parts index
-  - path: special_tokens_map.json
-    description: Mapping of special tokens.
-  - path: tokenizer.json
-    description: Tokenizer configuration.
-  - path: tokenizer_config.json
-    description: Detailed tokenizer configuration.
-  - path: configuration_falcon.py
-    description: Falcon configuration.
-  - path: modeling_falcon.py
-    description: Falcon modeling
 model:
   name: falcon-40b-text
   path: pytorch_model-00001-of-00009.bin
   framework: PyTorch-2.0
+  parts:
+    - path: pytorch_model-00002-of-00009.bin
+    - path: pytorch_model-00003-of-00009.bin
+    - path: pytorch_model-00004-of-00009.bin
+    - path: pytorch_model-00005-of-00009.bin
+    - path: pytorch_model-00006-of-00009.bin
+    - path: pytorch_model-00007-of-00009.bin
+    - path: pytorch_model-00008-of-00009.bin
+    - path: pytorch_model-00009-of-00009.bin
+    - path: config.json
+    - path: generation_config.json
+    - path: pytorch_model.bin.index.json
+    - path: special_tokens_map.json
+    - path: tokenizer.json
+    - path: tokenizer_config.json
+    - path: configuration_falcon.py
+    - path: modeling_falcon.py
   description: >-
    Falcon-40B is a 40B parameters causal decoder-only model built by 
    TII and trained on 1,000B tokens of RefinedWeb enhanced with curated corpora.
   license: Apache-2.0
-  parts:
-    - path: pytorch_model-00002-of-00009.bin
-      type: pytorch-model-part
-    - path: pytorch_model-00003-of-00009.bin
-      type: pytorch-model-part
-    - path: pytorch_model-00004-of-00009.bin
-      type: pytorch-model-part
-    - path: pytorch_model-00005-of-00009.bin
-      type: pytorch-model-part
-    - path: pytorch_model-00006-of-00009.bin
-      type: pytorch-model-part
-    - path: pytorch_model-00007-of-00009.bin
-      type: pytorch-model-part
-    - path: pytorch_model-00008-of-00009.bin
-      type: pytorch-model-part
-    - path: pytorch_model-00009-of-00009.bin
-      type: pytorch-model-part
