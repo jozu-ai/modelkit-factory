@@ -4,11 +4,15 @@ package:
   description: >-
     This is a transformer-based multi-language model.
   authors: ["BigScience"]
-code:
+docs:
   - path: LICENSE
     description: License file.
   - path: README.md
     description: Readme file.
+model:
+  name: bloom-1b1
+  path: model.safetensors
+  parts:
   - path: config.json
     description: Configuration file.
   - path: special_tokens_map.json
@@ -17,9 +21,7 @@ code:
     description: Tokenizer configuration.
   - path: tokenizer_config.json
     description: Detailed tokenizer configuration.
-model:
-  name: bloom-1b1
-  path: model.safetensors
+    
   description: >-
      Model weights saved in SafeTensors format.
   license: BigScience RAIL License v1.0
