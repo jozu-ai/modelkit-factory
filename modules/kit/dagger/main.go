@@ -171,17 +171,15 @@ func (m *Kit) Pack(ctx context.Context,
 	// +optional
 	kitfile *dagger.File ) (*Kit, error) {
 	cmd := []string{kitCommand, "pack", "/mnt", "-t", reference}
+	c := m.baseContainer().
+	WithMountedDirectory("/mnt", directory).
+	WithWorkdir("/mnt")
+	
 	if kitfile != nil {
-		kitfileName, err := kitfile.Name(ctx)
-		if err != nil {
-			return nil, err
-		}
-		cmd = append(cmd, "-f", kitfileName)
+		c = c.WithFile("kitfile.yml", kitfile)
+		cmd = append(cmd, "-f", "kitfile.yml")
 	}
-	_, err := m.baseContainer().
-		WithMountedDirectory("/mnt", directory).
-		WithWorkdir("/mnt").
-		WithExec(cmd).
+	_, err := c.WithExec(cmd).
 		Stdout(ctx)
 	if err != nil {
 		return nil, err
