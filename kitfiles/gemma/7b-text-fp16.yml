@@ -5,12 +5,13 @@ package:
   description: >-
    Gemma is a family of lightweight, state-of-the-art open models built by Google DeepMind.
   authors: ["Google"]
-code:
+docs:
   - path: README.md
     description: Readme file.
 model:
   name: gemma-7b-text-fp16
   path: gemma-7b.gguf
+  
   description: >-
      7B base version of the Gemma model.
   license: Gemma Terms of Use
