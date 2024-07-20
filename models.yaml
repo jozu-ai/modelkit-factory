@@ -319,3 +319,10 @@
   kitfile: kitfiles/falcon/40b-instruct.yml
   modelkit_tag: 40b-instruct
   model_size: 100GB
+
+# YOLO model
+- repo: jameslahm/yolov10x
+  name: yolo-v10
+  kitfile: kitfiles/yolo-v10/safetensor.yml
+  modelkit_tag: v10x
+  model_size: 0.1GB

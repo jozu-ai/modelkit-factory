@@ -1,0 +1,18 @@
+manifestVersion: 1.0.0
+package:
+  name:  yolo-v10
+  description: >-
+    YOLOv10: Real-Time End-to-End Object Detection.
+  authors: ["Ultralytics"]
+docs:
+  - path: README.md
+    description: Readme file.
+model:
+  name: yolo-v10
+  path: model.safetensors
+  parts:
+  - path: config.json
+
+  description: >-
+     Real-Time End-to-End Object Detection.
+  license: AGPL 3
