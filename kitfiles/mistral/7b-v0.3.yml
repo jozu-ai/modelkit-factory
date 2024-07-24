@@ -1,6 +1,6 @@
 manifestVersion: 1.0.0
 package:
-  name:  mistral
+  name:  mistral-7b-v0.3
   version: 0.3.0
   description: >-
     A Mistral-7B-v0.2 LLM with extended vocabulary.
