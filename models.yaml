@@ -44,7 +44,7 @@
   name: bloom-3b
   kitfile: kitfiles/bloom/3b.yml
   modelkit_tag: safetensor
-  model_size: 6GB
+  model_size: 20GB
 
 - repo: bigscience/bloom-560m
   name: bloom-560m
