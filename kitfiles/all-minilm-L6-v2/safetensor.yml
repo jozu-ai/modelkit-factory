@@ -21,7 +21,6 @@ model:
   - path: tokenizer_config.json
   - path: vocab.txt
   - path: 1_Pooling/config.json
-    description: Configuration file for pooling layer.
     
   description: >-
      Model weights saved in SafeTensors format.

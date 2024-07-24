@@ -44,7 +44,7 @@
   name: bloom-3b
   kitfile: kitfiles/bloom/3b.yml
   modelkit_tag: safetensor
-  model_size: 6GB
+  model_size: 20GB
 
 - repo: bigscience/bloom-560m
   name: bloom-560m
@@ -162,7 +162,7 @@
 
 # Mistral models
 - repo: mistralai/Mistral-7B-v0.1
-  name: mistral-7b
+  name: mistral_v0.1-7b
   parameterSize: 7B
   variant: text
   description: "Mistral 7B v.0.1 text model"
@@ -171,7 +171,7 @@
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
 - repo: mistralai/Mistral-7B-Instruct-v0.1
-  name: mistral-7b
+  name: mistral_v0.1-7b
   parameterSize: 7B
   variant: instruct
   description: "Mistral 7B v.0.1 instruct model"
@@ -180,7 +180,7 @@
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
 - repo: mistralai/Mistral-7B-v0.3
-  name: mistral-7b
+  name: mistral_v0.3-7b
   parameterSize: 7B
   variant: text
   description: "Mistral 7B v.0.3 text model"
@@ -189,7 +189,7 @@
   quantizations: ["q8_0", "q5_0", "q4_0"]
 
 - repo: mistralai/Mistral-7B-Instruct-v0.3
-  name: mistral-7b
+  name: mistral_v0.3-7b
   parameterSize: 7B
   variant: instruct
   description: "Mistral 7B v.0.3 instruct model"
