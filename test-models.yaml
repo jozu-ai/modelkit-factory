@@ -1,0 +1,19 @@
+
+# google-bert/bert-base-uncased
+- repo: google-bert/bert-base-uncased
+  name: bert-base-uncased
+  kitfile: kitfiles/bert-base-uncased/onnx.yml
+  modelkit_tag: onnx
+  model_size: 3GB
+
+# Llama-3.1 models
+- repo: meta-llama/Meta-Llama-3.1-8B
+  name: llama3.1-8b
+  parameterSize: 8B
+  variant: text
+  description: "Llama 3.1 8B text model"
+  kitfileTemplate: ./kitfiles/llama/llama31.yml
+  fp_precision: f16
+  quantizations: ["q8_0", "q5_0", "q4_0"]
+
+
