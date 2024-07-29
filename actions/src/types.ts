@@ -10,6 +10,7 @@ interface ModelWithProcessing {
     conversionFlags?: string
     quantizations: string[]
     packOnly?: boolean
+    signOnly?: boolean
 }
 
 interface ModelPack{
@@ -19,6 +20,7 @@ interface ModelPack{
     kitfile: string,
     runner: string
     model_size: string
+    signOnly: boolean
 }
 
 export type Model = ModelWithProcessing | ModelPack;

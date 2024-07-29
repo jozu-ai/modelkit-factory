@@ -5,7 +5,7 @@ import * as fs from 'fs';
 import { Model, isModelWithProcessing } from './types';
 import { startConversionFlow, startPackFlow, startQuantizationFlow } from './workflow-runners';
 import { getPublicJozuRepoName } from './utils';
-
+import { isSigned } from './cosign';
 
 /**
  * The main function for the action.
@@ -32,6 +32,11 @@ export async function run(): Promise<void> {
                 await startConversionFlow(model);
             }
             if (repoExits) {
+                const signed = await isSigned(repo); 
+                if ( !signed ){
+                    model.signOnly = true;
+                    await startConversionFlow(model);
+                }
                 let quantizations: string[] = [];
                 for (const q of model.quantizations) {
                     const quantizedModel = { ...model };
@@ -51,6 +56,13 @@ export async function run(): Promise<void> {
         else {
             if (!repoExits) {
                 await startPackFlow(model);
+            }
+            else { 
+                const signed = await isSigned(repo); 
+                if ( !signed ){
+                    model.signOnly = true;
+                    await startPackFlow(model);
+                }
             }
         }
     }
